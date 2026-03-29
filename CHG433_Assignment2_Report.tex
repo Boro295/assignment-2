@@ -18,7 +18,7 @@
 \usepackage{xcolor}
 \usepackage{parskip}
 \usepackage{enumitem}
-\usepackage{microtype}
+\usepackage[protrusion=true,expansion=false]{microtype}
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{multirow}
@@ -102,10 +102,10 @@
     \toprule
     \textbf{Member Name} & \textbf{Matric Number} \\
     \midrule
-    Group 9 Member 1 & \\
-    Group 9 Member 2 & \\
-    Group 9 Member 3 & \\
-    Group 9 Member 4 & \\
+    Adegunloye Fehintola Feyisayo   & 210401008 \\
+    Onabolu Samuel Ebunoluwa        & 210401069 \\
+    Oguejiofor-Abugu Belusochukwu   & 210401037 \\
+    Okpalaora Jeffry Chukwuebuka    & 230401510 \\
     \bottomrule
   \end{tabular}
 
@@ -125,11 +125,16 @@
 
 The authors of this paper are the members of Group 9.\\[1cm]
 
-\noindent\begin{tabular}{p{6cm}p{4cm}p{4cm}}
-Group 9 Member 1 & \underline{\hspace{4cm}} & \\[0.8cm]
-Group 9 Member 2 & \underline{\hspace{4cm}} & \\[0.8cm]
-Group 9 Member 3 & \underline{\hspace{4cm}} & \\[0.8cm]
-Group 9 Member 4 & \underline{\hspace{4cm}} & \\[0.8cm]
+\noindent
+\begin{tabular}{p{7cm}p{7cm}}
+Adegunloye, F. F. \hfill 210401008 & \\[0.3cm]
+\underline{\hspace{6cm}} & \\[1.0cm]
+Onabolu, S. E. \hfill 210401069 & \\[0.3cm]
+\underline{\hspace{6cm}} & \\[1.0cm]
+Oguejiofor-Abugu, B. \hfill 210401037 & \\[0.3cm]
+\underline{\hspace{6cm}} & \\[1.0cm]
+Okpalaora, J. C. \hfill 230401510 & \\[0.3cm]
+\underline{\hspace{6cm}} & \\[0.5cm]
 \end{tabular}
 
 \vspace{1cm}
@@ -140,14 +145,34 @@ to the best of our knowledge, neither plagiarised nor false.
 \noindent \textbf{Contributions}
 
 \vspace{0.5cm}
-\noindent\begin{tabular}{p{4cm}p{10cm}}
+\noindent\begin{tabular}{p{3.5cm}p{2.5cm}p{7.5cm}}
 \toprule
-\textbf{Member} & \textbf{Roles / Contributions} \\
+\textbf{Member} & \textbf{Matric No.} & \textbf{Roles / Contributions} \\
 \midrule
-Group 9 Member 1 & Layout/typing, results analysis and interpretation \\[0.4cm]
-Group 9 Member 2 & Programming/computing tasks, interpretation, discussion \\[0.4cm]
-Group 9 Member 3 & Conceptual formulation of solutions, programming \\[0.4cm]
-Group 9 Member 4 & Conceptual formulation of solutions, programming \\
+Adegunloye Fehintola Feyisayo & 210401008 &
+\begin{itemize}[noitemsep,topsep=0pt,leftmargin=*]
+  \item Programming/computing tasks
+  \item Layout/typing of the report
+  \item Results analysis and interpretation
+\end{itemize} \\[0.2cm]
+Onabolu Samuel Ebunoluwa & 210401069 &
+\begin{itemize}[noitemsep,topsep=0pt,leftmargin=*]
+  \item Programming/computing tasks
+  \item Writing of executive summary
+  \item Leadership and team coordination
+\end{itemize} \\[0.2cm]
+Oguejiofor-Abugu Belusochukwu & 210401037 &
+\begin{itemize}[noitemsep,topsep=0pt,leftmargin=*]
+  \item Programming/computing tasks
+  \item Conceptual/formulation of solutions
+  \item Interpretation and discussion
+\end{itemize} \\[0.2cm]
+Okpalaora Jeffry Chukwuebuka & 230401510 &
+\begin{itemize}[noitemsep,topsep=0pt,leftmargin=*]
+  \item Programming/computing tasks
+  \item Writing of conclusions
+  \item Conceptual/formulation of solutions
+\end{itemize} \\
 \bottomrule
 \end{tabular}
 
@@ -159,49 +184,63 @@ Group 9 Member 4 & Conceptual formulation of solutions, programming \\
   {\large \textbf{EXECUTIVE SUMMARY}}
 \end{center}
 
-Mathematical modelling and analysis are of fundamental importance in Chemical Engineering.
-Engineers must design specialised reactors and processes to create new substances or materials
-while adhering to strict safety regulations and working to maximise efficiency from both
-economic and ecological standpoints. The aim of this assignment is to establish a firm
-knowledge in analysing, modelling and refining new and existing systems, establishing the
-balance between complexity and accuracy, and to foster teamwork between members towards
-creating or advancing industrial processes.
+Mathematical modelling and numerical analysis remain indispensable tools in the practice of
+Chemical Engineering. This report presents the solutions to six problems set in CHG~433:
+Chemical Engineering Analysis for the 2025/2026 academic session. Each problem required
+the application of appropriate numerical and analytical methods, verified through manual
+computation and software implementation using Microsoft Excel and MATLAB.
 
-Six questions were solved and evaluated using numerical methods and the computer application
-MATLAB. The solutions were first computed manually by making assumptions and applying
-theories; then the required formulas and lines of code were typed into MATLAB for
-verification.
+\textbf{Question 1} involved three interconnected chemical reactors A, B, and C operating at
+steady state. Mass continuity equations were derived by applying conservation of mass around
+each reactor, yielding a system of three simultaneous linear equations. The system was solved
+manually using Cramer's Rule, Matrix Inverse, and Gaussian Elimination, and subsequently
+verified using Excel's MINVERSE and MMULT functions as well as MATLAB. The
+concentrations obtained were $x_A = 14.667\,\text{mg/m}^3$, $x_B = 7.333\,\text{mg/m}^3$,
+and $x_C = 10.1\,\text{mg/m}^3$, with all three solution methods and both software platforms
+yielding consistent results.
 
-\textbf{Question 1} considered a three-reactor system operating at steady state. By making a mass
-balance around each reactor, a system of three simultaneous linear equations was generated
-and solved for concentrations $x_A$, $x_B$, and $x_C$ using Cramer's Rule, the Matrix Inverse
-Method, and the MATLAB backslash operator. The concentrations converged to
-$x_A = 14.67\,\text{mg/m}^3$, $x_B = 7.33\,\text{mg/m}^3$, and $x_C = 10.10\,\text{mg/m}^3$.
+\textbf{Question 2} was presented in two parts. Part~A required determining the temperature at
+which a Nickel Resistance Temperature Detector (RTD) exhibits a resistance of 300\,$\Omega$,
+given a sixth-degree polynomial resistance-temperature relationship. The root of the nonlinear
+equation was found using the Newton-Raphson and Interval Bisection methods both manually
+and via Excel and MATLAB. The temperature converged to approximately $274\,^{\circ}$C.
+Part~B applied the Van der Waals equation to find the molar volume of 1.5 moles of nitrogen
+at 25\,$^{\circ}$C across a range of pressures from 13.5\,atm to 150\% above the base value.
+Excel's Goal Seek function and MATLAB's \texttt{fzero} built-in function were used. Results
+confirmed Boyle's Law: pressure and volume were found to be inversely related, and a
+pressure--volume plot was generated.
 
-\textbf{Question 2} was in two parts. Part A determined the temperature in a Resistance Temperature
-Detector (RTD) when its resistance was 300\,$\Omega$, using the Newton-Raphson and Interval
-Bisection methods, yielding a temperature of approximately $260.22\,^{\circ}\text{C}$. Part B determined
-the volume of a real gas (N\textsubscript{2}) at multiple pressures using the Van der Waals equation, with
-MATLAB's \texttt{fzero} function confirming the inverse pressure-volume relationship.
+\textbf{Question 3} addressed the dynamic modelling of a liquid tank system. A first-order,
+nonlinear, lumped-parameter ordinary differential equation (ODE) was derived from a mass
+balance, relating the inlet volumetric flow rate to the liquid level. The initial steady-state liquid
+level was calculated analytically. When the inlet flow was increased by 50\%, the dynamic
+response was obtained in closed form using linearisation via Taylor Series Expansion and
+subsequent solution by Laplace Transforms. The system's dynamic response was then
+simulated numerically using MATLAB with both the Explicit Euler and Runge-Kutta 4\textsuperscript{th}
+Order (RK4) methods across six step lengths: 0.01, 0.05, 0.1, 0.5, 1, and 10. Response plots
+were generated for each method and step size.
 
-\textbf{Question 3} derived a model relating inlet volumetric flow to liquid level in a tank, identified
-it as a lumped-parameter first-order ODE, found the initial steady-state level and derived a
-closed-form dynamic response. The ODE was then solved numerically using the Explicit
-Euler and Runge-Kutta 4\textsuperscript{th}-Order (RK4) methods for step lengths of 0.01, 0.05, 0.1,
-0.5, 1, and 10\,s.
+\textbf{Question 4} involved fitting a least-squares model of the form
+$\ln(k) = C + b\cdot\ln(T) - D/T$ to experimentally measured rate coefficients for the
+reaction $\text{CH}_4 + \text{O} \rightarrow \text{CH}_3 + \text{OH}$ at eleven different
+temperatures. A system of three normal equations was developed and solved manually using
+Cramer's Rule, and the same problem was also solved using Excel's LINEST function and
+MATLAB's normal equation approach. The constants $C$, $b$, and $D$ were extracted and then
+used to deduce the Arrhenius pre-exponential factor $A$ and the activation energy $E_a$ by
+comparison with the standard Arrhenius expression $k = AT^b \cdot \exp(-E_a/RT)$.
 
-\textbf{Question 4} applied the method of least squares to fit a function of the form
-$\ln(k) = C + b\ln(T) - D/T$ to experimental rate-coefficient data. The fitted constants were
-used to deduce the Arrhenius parameters $A$ and $E_a$ for the reaction $\text{CH}_4 + \text{O} \to \text{CH}_3 + \text{OH}$.
+\textbf{Question 5} dealt with the flash vaporisation of a hydrocarbon mixture containing
+21\,mole\% n-butane, 60\,mole\% n-pentane, and 19\,mole\% n-hexane at 10\,atm and
+270\,$^{\circ}$F. Modelling equations were set up using overall and component material
+balances, equilibrium relations (Raoult's Law with Antoine equation K-values), and the
+Rachford-Rice equation. The vapour fraction and stream compositions were determined
+numerically, and the results were compared with DWSIM simulation outputs from Assignment~I.
 
-\textbf{Question 5} solved a flash vaporization problem for a ternary mixture of n-butane,
-n-pentane, and n-hexane at 10\,atm and 270\,$^{\circ}$F using the Rachford-Rice equation and
-Wilson's K-value correlation, determining the vapour fraction $\beta$, vapour flow $V$, liquid
-flow $L$, and phase compositions $x_i$ and $y_i$.
-
-\textbf{Question 6} determined the cost per pound of five trail-mix ingredients by formulating and
-solving a $5\times5$ linear system from five known mixture-cost equations using the MATLAB
-backslash operator and back-substitution for validation.
+\textbf{Question 6} presented a food industry problem in which five trail mix blends of known
+composition and total ingredient cost were used to determine the cost per pound of five
+individual ingredients---peanuts, raisins, almonds, chocolate chips, and dried plums. This was
+formulated as a $5\times5$ linear system $Ax = b$ and solved in MATLAB. The cost per pound
+of each ingredient was obtained, with the solution verified by back-substitution.
 
 % ============================================================
 % TABLE OF CONTENTS
@@ -216,23 +255,48 @@ backslash operator and back-substitution for validation.
 \section*{INTRODUCTION}
 \addcontentsline{toc}{section}{Introduction}
 
-Mathematical techniques and models are used in almost every element of a chemical
-engineer's professional life. Modern industrial production is based on solid scientific methods,
-many of which are part of chemical engineering. Engineers must design specialised reactors and
-processes to create new substances or materials while adhering to strict safety regulations and
-working to maximise efficiency from both an economic and ecological standpoint.
+Mathematical modelling and numerical analysis are central to the discipline of Chemical
+Engineering. Virtually every aspect of the profession---from reactor design and process
+optimisation to dynamic simulation and thermodynamic analysis---depends on the ability to
+formulate and solve mathematical problems systematically and efficiently. As noted by the
+American Institute of Chemical Engineers (AIChE), mathematical modelling is a powerful
+instrument for understanding, designing, and predicting the behaviour of chemical processes
+and equipment. Models serve as the basis for design decisions, safety assessments, and process
+improvements across the industry.
 
-According to the American Institute of Chemical Engineers (AIChE), mathematical modelling
-is a powerful tool for understanding, designing, and predicting processes and process
-equipment in the chemical industry, including the conservation of momentum, energy, and
-material. Models are designed to predict and optimise the behaviour of engineering operations.
+Modern chemical engineers are expected not only to understand the theoretical foundations of
+numerical methods but also to apply them using computational tools. This dual
+competence---analytical rigour combined with computational proficiency---is increasingly
+essential in an industry where the complexity of problems routinely exceeds what is tractable
+by hand alone. Accordingly, this assignment bridges both aspects by requiring solutions to be
+developed first manually and then confirmed using software.
 
-Modern chemical engineers are not only expected to be adept at using these techniques; they
-are also expected to be able to apply computer-based solutions when analytical ones are
-impractical. This assignment demonstrates both approaches—manual analytical methods and
-MATLAB computational implementations—across six engineering problems drawn from
-linear algebra, root-finding, ordinary differential equations, regression, thermodynamic
-flash calculations, and simultaneous linear systems.
+This report presents the Group's solutions to six problems from CHG~433: Chemical
+Engineering Analysis, 2025/2026 Academic Session. The problems span a broad range of
+topics and methods: solving systems of linear algebraic equations by Cramer's Rule, Matrix
+Inverse, and Gaussian Elimination (Question~1); finding roots of nonlinear equations by
+Newton-Raphson and Interval Bisection methods (Question~2); deriving and solving ordinary
+differential equations analytically and numerically using Explicit Euler and Runge-Kutta 4\textsuperscript{th}
+Order methods (Question~3); applying least-squares regression to fit an Arrhenius-type kinetic
+model to experimental data (Question~4); modelling a flash vaporisation separation process
+using equilibrium relations and the Rachford-Rice equation (Question~5); and formulating and
+solving a linear system to determine ingredient costs in a food manufacturing context
+(Question~6).
+
+For each problem, solutions were first developed manually using a calculator to ensure a
+thorough understanding of the underlying mathematics, before being implemented in Microsoft
+Excel and MATLAB. MATLAB was selected as the primary programming environment for
+this assignment. The objectives of this work are as follows:
+
+\begin{itemize}
+  \item To demonstrate proficiency in applying classical numerical methods to Chemical
+        Engineering problems.
+  \item To develop and validate mathematical models of physical and chemical systems.
+  \item To implement numerical algorithms in MATLAB and Microsoft Excel, comparing
+        their outputs with analytical or manual solutions.
+  \item To foster effective team collaboration in solving complex, multi-part engineering
+        problems.
+\end{itemize}
 
 \newpage
 
@@ -1231,29 +1295,61 @@ consistent with commodity market expectations.
 \section*{CONCLUSION}
 \addcontentsline{toc}{section}{Conclusion}
 
-This assignment successfully demonstrated the application of numerical methods and
-MATLAB to six distinct chemical engineering problems:
+This assignment provided a comprehensive exercise in the application of numerical methods
+and mathematical modelling to Chemical Engineering problems. Six distinct problems were
+solved, each requiring manual derivation and computation followed by verification using
+Microsoft Excel and MATLAB. The results obtained across the different methods and
+software platforms were consistent, reinforcing confidence in both the solutions and the
+methods employed.
 
-\begin{enumerate}
-  \item \textbf{Q1} confirmed that Cramer's Rule, matrix inversion, and the MATLAB backslash
-        operator are equivalent for small well-conditioned linear systems;
-  \item \textbf{Q2} showed that Newton-Raphson (fast, quadratic convergence) and bisection
-        (robust, guaranteed convergence) complement each other for root finding, and
-        that \texttt{fzero} efficiently solves implicit nonlinear equations;
-  \item \textbf{Q3} highlighted the value of analytical Laplace-transform solutions as
-        benchmarks for validating numerical ODE solvers (Euler, RK4);
-  \item \textbf{Q4} established that multi-parameter least-squares regression via the normal
-        equations is straightforward in MATLAB and yields excellent fits for Arrhenius-type
-        rate models;
-  \item \textbf{Q5} illustrated that flash calculations depend critically on thermodynamic K-value
-        models and that the Rachford-Rice equation robustly handles two-phase equilibria;
-  \item \textbf{Q6} reinforced the power of matrix algebra in formulating and solving
-        simultaneous linear equations that arise in engineering economic problems.
-\end{enumerate}
+In \textbf{Question~1}, mass continuity equations for a three-reactor system were solved using
+Cramer's Rule, the Matrix Inverse Method, and Gaussian Elimination. All three manual
+methods yielded identical concentrations---$x_A = 14.667\,\text{mg/m}^3$,
+$x_B = 7.333\,\text{mg/m}^3$, and $x_C = 10.1\,\text{mg/m}^3$---which were confirmed by
+Excel and MATLAB. This demonstrated that multiple valid approaches exist for solving linear
+systems, and that computational tools can reliably replicate hand-calculated results.
 
-Throughout, agreement between manual calculations and MATLAB results validated both
-approaches. The work establishes a strong foundation in mathematical and computational
-methods for chemical engineering analysis.
+\textbf{Question~2a} illustrated the use of iterative root-finding techniques to solve a nonlinear
+polynomial equation. The Newton-Raphson method exhibited rapid quadratic convergence to
+the temperature of approximately $274\,^{\circ}$C, while Interval Bisection provided a more
+conservative but reliable bracketing approach. Both methods agreed, and their results were
+reproduced in Excel and MATLAB. \textbf{Question~2b} extended this to a cubic equation arising
+from the Van der Waals model, demonstrating the inverse relationship between pressure and
+molar volume across a range of pressures, in agreement with Boyle's Law.
+
+In \textbf{Question~3}, a first-order nonlinear ODE governing the liquid level in a tank was
+derived and solved. Linearisation via Taylor Series Expansion allowed a closed-form solution
+to be obtained through Laplace Transforms. Numerical integration using the Explicit Euler
+and Runge-Kutta 4\textsuperscript{th} Order methods in MATLAB showed that RK4 consistently produced
+more accurate results than the Euler method, particularly at larger step sizes. This confirmed
+the theoretical expectation that higher-order methods offer superior accuracy and stability for
+a given step length, making RK4 the preferred method for practical dynamic simulation.
+
+\textbf{Question~4} demonstrated the power of least-squares regression in extracting physically
+meaningful parameters from experimental data. Fitting the kinetic rate data to a model of the
+form $\ln(k) = C + b\cdot\ln(T) - D/T$ and comparing the result to the Arrhenius equation
+allowed the activation energy $E_a$ and the pre-exponential factor $A$ to be determined. Some
+discrepancy between manual and software-computed values was noted due to rounding errors
+in manual arithmetic, but the software results are taken as the more reliable.
+
+\textbf{Question~5} required the formulation and solution of a flash vaporisation problem using
+the Rachford-Rice equation. By computing K-values from Antoine's equation under Raoult's
+Law, the vapour fraction and individual stream compositions were determined and compared
+against DWSIM simulation results from Assignment~I. This exercise highlighted the practical
+importance of thermodynamic equilibrium models in separation process design.
+
+\textbf{Question~6} demonstrated how a seemingly straightforward economic problem---determining
+ingredient costs from blending data---can be cast as a well-posed linear system and solved
+efficiently. The $5\times5$ system was solved using MATLAB's backslash operator, and the
+results were verified by back-substitution, confirming their correctness.
+
+Overall, this assignment deepened the Group's understanding of how numerical methods
+underpin chemical engineering analysis, from steady-state mass balances to dynamic
+simulation and regression. It reinforced the value of verifying results across multiple methods
+and platforms, and strengthened the Group's collaborative problem-solving skills. The ability
+to formulate, solve, and critically evaluate mathematical models is an essential capability for
+practising chemical engineers, and this assignment has contributed meaningfully to developing
+that capability.
 
 % ============================================================
 % THINGS WE LEARNED
