@@ -18,7 +18,7 @@
 \usepackage{xcolor}
 \usepackage{parskip}
 \usepackage{enumitem}
-\usepackage{microtype}
+\usepackage[protrusion=true,expansion=false]{microtype}
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{multirow}
@@ -102,10 +102,10 @@
     \toprule
     \textbf{Member Name} & \textbf{Matric Number} \\
     \midrule
-    Group 9 Member 1 & \\
-    Group 9 Member 2 & \\
-    Group 9 Member 3 & \\
-    Group 9 Member 4 & \\
+    Adegunloye Fehintola Feyisayo & 210401008 \\
+    Onabolu Samuel Ebunoluwa & 210401069 \\
+    Oguejiofor-Abugu Belusochukwu & 210401037 \\
+    Okpalaora Jeffry Chukwuebuka & 230401510 \\
     \bottomrule
   \end{tabular}
 
@@ -123,14 +123,26 @@
   {\large \textbf{ATTESTATION}}
 \end{center}
 
-The authors of this paper are the members of Group 9.\\[1cm]
+The authors of this paper are the members of Group 9.\\[0.8cm]
 
-\noindent\begin{tabular}{p{6cm}p{4cm}p{4cm}}
-Group 9 Member 1 & \underline{\hspace{4cm}} & \\[0.8cm]
-Group 9 Member 2 & \underline{\hspace{4cm}} & \\[0.8cm]
-Group 9 Member 3 & \underline{\hspace{4cm}} & \\[0.8cm]
-Group 9 Member 4 & \underline{\hspace{4cm}} & \\[0.8cm]
-\end{tabular}
+\newcommand{\sigentry}[3]{%
+\begin{minipage}[t]{0.22\textwidth}
+\centering
+\textbf{#1}\\
+#2\\[0.3cm]
+\IfFileExists{#3}{\includegraphics[height=2.2cm]{#3}}{\underline{\hspace{2.8cm}}}\\[0.2cm]
+\end{minipage}
+}
+
+\begin{center}
+\sigentry{Adegunloye Fehintola Feyisayo}{210401008}{assets/sig1.png}
+\hfill
+\sigentry{Onabolu Samuel Ebunoluwa}{210401069}{assets/sig2.png}
+\hfill
+\sigentry{Oguejiofor-Abugu Belusochukwu}{210401037}{assets/sig3.png}
+\hfill
+\sigentry{Okpalaora Jeffry Chukwuebuka}{230401510}{assets/sig3.png}
+\end{center}
 
 \vspace{1cm}
 \noindent By the signatures above, each author attests to the fact that the contents of this paper are,
@@ -140,14 +152,14 @@ to the best of our knowledge, neither plagiarised nor false.
 \noindent \textbf{Contributions}
 
 \vspace{0.5cm}
-\noindent\begin{tabular}{p{4cm}p{10cm}}
+\noindent\begin{tabular}{p{4.1cm}p{2.6cm}p{7.2cm}}
 \toprule
-\textbf{Member} & \textbf{Roles / Contributions} \\
+\textbf{Member} & \textbf{Matric Number} & \textbf{Roles / Contributions} \\
 \midrule
-Group 9 Member 1 & Layout/typing, results analysis and interpretation \\[0.4cm]
-Group 9 Member 2 & Programming/computing tasks, interpretation, discussion \\[0.4cm]
-Group 9 Member 3 & Conceptual formulation of solutions, programming \\[0.4cm]
-Group 9 Member 4 & Conceptual formulation of solutions, programming \\
+Adegunloye Fehintola Feyisayo & 210401008 & Programming/computation tasks; layout and typing of the report; writing of executive summary \\[0.4cm]
+Onabolu Samuel Ebunoluwa & 210401069 & Programming/computation tasks; interpretation and discussion; leadership and team coordination \\[0.4cm]
+Oguejiofor-Abugu Belusochukwu & 210401037 & Programming/computation tasks; conceptual formulation of solution; writing of conclusion \\[0.4cm]
+Okpalaora Jeffry Chukwuebuka & 230401510 & Programming/computation tasks; results analysis and validation; proofreading and formatting \\
 \bottomrule
 \end{tabular}
 
@@ -159,49 +171,50 @@ Group 9 Member 4 & Conceptual formulation of solutions, programming \\
   {\large \textbf{EXECUTIVE SUMMARY}}
 \end{center}
 
-Mathematical modelling and analysis are of fundamental importance in Chemical Engineering.
-Engineers must design specialised reactors and processes to create new substances or materials
-while adhering to strict safety regulations and working to maximise efficiency from both
-economic and ecological standpoints. The aim of this assignment is to establish a firm
-knowledge in analysing, modelling and refining new and existing systems, establishing the
-balance between complexity and accuracy, and to foster teamwork between members towards
-creating or advancing industrial processes.
+Mathematical modelling and analysis is very important in Chemical Engineering. Engineers
+must design specialised reactors and processes to create new substances or materials while
+adhering to strict safety regulations and working to maximise efficiency from both an economic
+and ecological standpoint. The aim of this paper was to establish a firm knowledge in analysing,
+modelling and refining new and existing systems, establishing the balance between complexity
+and accuracy and foster team-work between members towards creating or advancing industrial
+processes. Four questions solved in four sections were evaluated using various numerical
+methods and the computer application software SCILAB and Microsoft Excel. The solutions
+were first computed manually, by making assumptions and applying theories. Then the
+required formulas and lines of code were typed into the software. Problem 1 depicted a
+chemical engineering process application involving 3 chemical reactors operating at steady
+state. By making material balance around each reactor, a mass continuity system of three
+simultaneous equations was generated. The equations were used to evaluate the concentrations
+of the required specie in each reactor: $x_A$, $x_B$, and $x_C$ by solving the using Crammer's Rule,
+Gaussian Elimination, and Matrix Inverse. The Matrix inverse method was used in solving the
+system of equations on SCILAB and Microsoft Excel. The values of $x_A$, $x_B$, and $x_C$ were
+gotten as 14.67\,mg/m$^3$, 7.33\,mg/m$^3$ and 10.10\,mg/m$^3$ respectively. Question 2 was in two
+parts. Part A dealt with the determination of the temperature in a Resistance Temperature
+Detector (RTD) operation. Using the Newton-Raphson and Interval Bisection methods, the
+temperature of the detector when its resistance was 300$\Omega$ was calculated as 260.22$^\circ$C.
+The Excel and SCILAB solutions also employed the Newton-Raphson equation to calculate
+the required temperature. In part B, the volume of a real gas was determined at different
+pressures by using the Van der Waals equation. The problem was solved in SCILAB with the
+``fsolve'' function, and in Excel using ``Goal Seek''. Pressure was then plotted against volume.
 
-Six questions were solved and evaluated using numerical methods and the computer application
-MATLAB. The solutions were first computed manually by making assumptions and applying
-theories; then the required formulas and lines of code were typed into MATLAB for
-verification.
-
-\textbf{Question 1} considered a three-reactor system operating at steady state. By making a mass
-balance around each reactor, a system of three simultaneous linear equations was generated
-and solved for concentrations $x_A$, $x_B$, and $x_C$ using Cramer's Rule, the Matrix Inverse
-Method, and the MATLAB backslash operator. The concentrations converged to
-$x_A = 14.67\,\text{mg/m}^3$, $x_B = 7.33\,\text{mg/m}^3$, and $x_C = 10.10\,\text{mg/m}^3$.
-
-\textbf{Question 2} was in two parts. Part A determined the temperature in a Resistance Temperature
-Detector (RTD) when its resistance was 300\,$\Omega$, using the Newton-Raphson and Interval
-Bisection methods, yielding a temperature of approximately $260.22\,^{\circ}\text{C}$. Part B determined
-the volume of a real gas (N\textsubscript{2}) at multiple pressures using the Van der Waals equation, with
-MATLAB's \texttt{fzero} function confirming the inverse pressure-volume relationship.
-
-\textbf{Question 3} derived a model relating inlet volumetric flow to liquid level in a tank, identified
-it as a lumped-parameter first-order ODE, found the initial steady-state level and derived a
-closed-form dynamic response. The ODE was then solved numerically using the Explicit
-Euler and Runge-Kutta 4\textsuperscript{th}-Order (RK4) methods for step lengths of 0.01, 0.05, 0.1,
-0.5, 1, and 10\,s.
-
-\textbf{Question 4} applied the method of least squares to fit a function of the form
-$\ln(k) = C + b\ln(T) - D/T$ to experimental rate-coefficient data. The fitted constants were
-used to deduce the Arrhenius parameters $A$ and $E_a$ for the reaction $\text{CH}_4 + \text{O} \to \text{CH}_3 + \text{OH}$.
-
-\textbf{Question 5} solved a flash vaporization problem for a ternary mixture of n-butane,
-n-pentane, and n-hexane at 10\,atm and 270\,$^{\circ}$F using the Rachford-Rice equation and
-Wilson's K-value correlation, determining the vapour fraction $\beta$, vapour flow $V$, liquid
-flow $L$, and phase compositions $x_i$ and $y_i$.
-
-\textbf{Question 6} determined the cost per pound of five trail-mix ingredients by formulating and
-solving a $5\times5$ linear system from five known mixture-cost equations using the MATLAB
-backslash operator and back-substitution for validation.
+The plot showed an inverse relationship between pressure and volume (Boyle's Law). A model
+was derived for a liquid tank system with inlet and outlet volumetric flow rates in question 3.
+The model related the volumetric inlet flow to the level of liquid in the tank. The model derived
+was a lumped parameter model and the initial steady-state liquid level in the tank was
+determined to be 25\,cm after making a key assumption. An expression for the dynamic response
+of the liquid level to change in operation commands was also determined by linearising the
+non-linear model equation. This was done using Taylor Series Expansion, and the resulting
+ODE was evaluated with Laplace Transforms. The solution of the resulting equation was taken
+to SCILAB to show the response of the system to different step lengths 0.01, 0.05, 0.1, 0.5, 1,
+10 by using the Euler Explicit function and Runge-Kutta 4th order methods. In question 4, the
+method of least-squares was used to best fit a function of the form $\ln(k) = C + b\ln(T) - D/T$
+to the data given. This data showed the measurements of the rate coefficient, $k$ for a reaction at
+different temperatures, $T$. By manually developing a system of three simultaneous equations
+using least squares and Crammer's rule, the values $C$, $b$, and $D$ were obtained. The values
+computed manually varied from the ones gotten in the software due to approximation and
+possible random errors. From comparing the function and constants gotten to the log of the
+Arrhenius equation, $k = AT^b e^{-E_a/RT}$, the values of $A$ and $E_a$ were deduced. The work
+done is significant because it establishes the chemical engineering undergraduate in fundamental
+principles of solving process problems.
 
 % ============================================================
 % TABLE OF CONTENTS
@@ -216,23 +229,22 @@ backslash operator and back-substitution for validation.
 \section*{INTRODUCTION}
 \addcontentsline{toc}{section}{Introduction}
 
-Mathematical techniques and models are used in almost every element of a chemical
-engineer's professional life. Modern industrial production is based on solid scientific methods,
-many of which are part of chemical engineering. Engineers must design specialised reactors and
+Mathematical techniques and models are used in almost every element of a chemical engineer's
+professional life. Modern industrial production is based on solid scientific methods, many of
+which are part of chemical engineering. Engineers must design specialised reactors and
 processes to create new substances or materials while adhering to strict safety regulations and
-working to maximise efficiency from both an economic and ecological standpoint.
+working to maximise efficiency from both an economic and ecological standpoint. Many
+innovations in material design and process development are thought to be fuelled by
+mathematical methods in chemical engineering.
 
-According to the American Institute of Chemical Engineers (AIChE), mathematical modelling
+According to the American Institute of Chemical Engineers (AIChE), Mathematical modelling
 is a powerful tool for understanding, designing, and predicting processes and process
 equipment in the chemical industry, including the conservation of momentum, energy, and
 material. Models are designed to predict and optimise the behaviour of engineering operations.
-
-Modern chemical engineers are not only expected to be adept at using these techniques; they
-are also expected to be able to apply computer-based solutions when analytical ones are
-impractical. This assignment demonstrates both approaches—manual analytical methods and
-MATLAB computational implementations—across six engineering problems drawn from
-linear algebra, root-finding, ordinary differential equations, regression, thermodynamic
-flash calculations, and simultaneous linear systems.
+These techniques and models provide the mathematical foundations of different areas of
+chemical engineering and describes typical applications. Modern chemical engineers are not
+only expected to be adept at using these techniques; they are also expected to be able to apply
+computer-based solutions when analytical ones are impractical.
 
 \newpage
 
@@ -1231,29 +1243,49 @@ consistent with commodity market expectations.
 \section*{CONCLUSION}
 \addcontentsline{toc}{section}{Conclusion}
 
-This assignment successfully demonstrated the application of numerical methods and
-MATLAB to six distinct chemical engineering problems:
+This assignment was done as an assessment to test and establish the knowledge of Chemical
+Engineering Analysis (CHG 433). Four questions given in four sections were evaluated using
+various numerical methods and the computer application software SCILAB and Microsoft
+Excel. The solutions were first computed manually, by making assumptions and applying
+theories. Then the required formulas and lines of code were typed into the software mentioned
+above.
 
-\begin{enumerate}
-  \item \textbf{Q1} confirmed that Cramer's Rule, matrix inversion, and the MATLAB backslash
-        operator are equivalent for small well-conditioned linear systems;
-  \item \textbf{Q2} showed that Newton-Raphson (fast, quadratic convergence) and bisection
-        (robust, guaranteed convergence) complement each other for root finding, and
-        that \texttt{fzero} efficiently solves implicit nonlinear equations;
-  \item \textbf{Q3} highlighted the value of analytical Laplace-transform solutions as
-        benchmarks for validating numerical ODE solvers (Euler, RK4);
-  \item \textbf{Q4} established that multi-parameter least-squares regression via the normal
-        equations is straightforward in MATLAB and yields excellent fits for Arrhenius-type
-        rate models;
-  \item \textbf{Q5} illustrated that flash calculations depend critically on thermodynamic K-value
-        models and that the Rachford-Rice equation robustly handles two-phase equilibria;
-  \item \textbf{Q6} reinforced the power of matrix algebra in formulating and solving
-        simultaneous linear equations that arise in engineering economic problems.
-\end{enumerate}
+Problem 1 depicted a chemical engineering process application involving 3 chemical reactors
+operating at steady state. By making material balance around each reactor, a mass continuity
+system of three simultaneous equations was generated. The equations were used to evaluate
+the concentrations of the required specie in each reactor: $x_A$, $x_B$, and $x_C$ by solving the using
+Crammer's Rule, Gaussian Elimination, and Matrix Inverse. The Matrix inverse method was
+used in solving the system of equations on SCILAB and Microsoft Excel and the answers
+obtained were all the same.
 
-Throughout, agreement between manual calculations and MATLAB results validated both
-approaches. The work establishes a strong foundation in mathematical and computational
-methods for chemical engineering analysis.
+Question 2 was in two parts. Part A dealt with the determination of the temperature in a
+Resistance Temperature Detector (RTD) operation. Using the Newton-Raphson and Interval
+Bisection methods, the temperature of the detector when its resistance was 300$\Omega$ was
+calculated as 260.22$^\circ$C. The Excel and SCILAB solutions also employed the Newton-Raphson
+equation to calculate the required temperature. In part B, the volume of a real gas was
+determined at different pressures by using the Van der Waals equation. The problem was solved
+in SCILAB with the ``fsolve'' function, and in Excel using ``Goal Seek''. Pressure was then
+plotted against volume and plotted in the Excel sheet. The plot showed an inverse relationship
+between pressure and volume (Boyle's Law).
+
+A model was derived for a liquid tank system with inlet and outlet volumetric flow rates in
+question 3. The model related the volumetric inlet flow to the level of liquid in the tank. The
+model derived was a lumped parameter model. An expression for the dynamic response of the
+liquid level to change in operation commands was also determined by linearising the non-linear
+model equation. This was done using Taylor Series Expansion, and the resulting ODE was
+evaluated with Laplace Transforms. The solution of the resulting equation was taken to SCILAB
+to show the response of the system to different step lengths by using the Euler Explicit function
+and Runge-Kutta 4th order methods. The R-K graph is in reality more accurate than Euler's
+method since it more accurately accounts for the spatial and other differences in the system.
+
+In question 4, the method of least-squares was used to best fit a function of the form
+$\ln(k)= C + b\ln(T) - D/T$ to the data given. This data showed the measurements of the rate
+coefficient, $k$ for a reaction at different temperatures, $T$. By manually developing a system of
+three simultaneous equations using least squares and Crammer's rule, the values of $C$, $b$,
+and $D$ were obtained. The values computed manually varied from the ones gotten in the
+software due to approximation and possible random errors. From comparing the function and
+constants gotten to the log of the Arrhenius equation, $k = AT^b e^{-E_a/RT}$, the values of
+$A$ and $E_a$ were deduced. All the problems were solved, typed, and formatted properly.
 
 % ============================================================
 % THINGS WE LEARNED
