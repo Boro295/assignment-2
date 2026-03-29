@@ -127,14 +127,14 @@ The authors of this paper are the members of Group 9.\\[1cm]
 
 \noindent
 \begin{tabular}{p{7cm}p{7cm}}
-Adegunloye, F. F. \hfill 210401008 & \\[0.3cm]
-\underline{\hspace{6cm}} & \\[1.0cm]
-Onabolu, S. E. \hfill 210401069 & \\[0.3cm]
-\underline{\hspace{6cm}} & \\[1.0cm]
-Oguejiofor-Abugu, B. \hfill 210401037 & \\[0.3cm]
-\underline{\hspace{6cm}} & \\[1.0cm]
-Okpalaora, J. C. \hfill 230401510 & \\[0.3cm]
-\underline{\hspace{6cm}} & \\[0.5cm]
+Adegunloye, F. F. \hfill 210401008 & \\[0.2cm]
+\includegraphics[width=4.5cm,height=1.5cm,keepaspectratio]{WhatsApp Image 2026-03-29 at 19.06.02.jpeg} & \\[0.3cm]
+Onabolu, S. E. \hfill 210401069 & \\[0.2cm]
+\includegraphics[width=4.5cm,height=1.5cm,keepaspectratio]{WhatsApp Image 2026-03-29 at 19.06.02 (1).jpeg} & \\[0.3cm]
+Oguejiofor-Abugu, B. \hfill 210401037 & \\[0.2cm]
+\includegraphics[width=4.5cm,height=1.5cm,keepaspectratio]{WhatsApp Image 2026-03-29 at 19.06.02 (2).jpeg} & \\[0.3cm]
+Okpalaora, J. C. \hfill 230401510 & \\[0.2cm]
+\includegraphics[width=4.5cm,height=1.5cm,keepaspectratio]{WhatsApp Image 2026-03-29 at 19.06.02 (1).jpeg} & \\[0.3cm]
 \end{tabular}
 
 \vspace{1cm}
@@ -1357,18 +1357,47 @@ that capability.
 \section*{Things We Learned}
 \addcontentsline{toc}{section}{Things We Learned}
 
-\begin{itemize}
-  \item The MATLAB backslash operator (\texttt{A\textbackslash b}) is the most numerically
-        stable general-purpose method for solving linear systems.
-  \item Newton-Raphson requires a good initial guess but converges much faster than bisection.
-  \item RK4 offers a significant accuracy improvement over Euler's method at the same step
-        size, with minimal additional computational cost.
-  \item The least-squares design-matrix approach unifies single and multiple regression into
-        one framework.
-  \item Flash calculations are sensitive to the choice of K-value correlation; the Wilson
-        equation provides a simple but reasonable first estimate.
-  \item Back-substitution validation (residual check) is an essential step to verify any
-        numerical solution.
-\end{itemize}
+\begin{enumerate}
+
+  \item \textbf{Working with MATLAB's backslash operator.}
+  We came to appreciate just how powerful and reliable MATLAB's backslash operator
+  (\texttt{A\textbackslash b}) is for solving linear systems. Before this assignment, we would
+  manually invert matrices without a second thought, but after seeing how round-off errors
+  accumulate with explicit inversion, we now understand why numerical analysts insist on using
+  factorisation-based solvers. It is one of those things that looks like a small technical detail
+  until you actually compare the results.
+
+  \item \textbf{Newton-Raphson and the importance of a good starting point.}
+  Newton-Raphson is impressively fast---sometimes converging in just three or four iterations---but
+  we learned the hard way that a poor initial guess can send it spiralling away from the root.
+  Comparing it side-by-side with bisection taught us that speed and robustness are not the same
+  thing, and that choosing the right method depends on what you know about the problem beforehand.
+
+  \item \textbf{Why RK4 is worth the extra computation.}
+  Watching Euler's method drift noticeably even at a step size where RK4 was still accurate was a
+  genuine eye-opener. The extra function evaluations that RK4 requires are a small price to pay for
+  the accuracy gain, and we now think twice before reaching for a first-order method in any dynamic
+  simulation. The improvement in stability at larger step sizes was particularly striking.
+
+  \item \textbf{Regression is more unified than it looks.}
+  We had always thought of simple linear regression and multiple regression as separate techniques,
+  but framing both as a least-squares matrix problem showed us they are really the same idea applied
+  at different scales. This made extending the approach to the modified Arrhenius model feel natural
+  rather than intimidating, and we came away with a much cleaner mental picture of how fitting works.
+
+  \item \textbf{Thermodynamic sensitivity in flash calculations.}
+  The flash vaporisation problem showed us that K-values---and therefore the predicted vapour
+  fraction---are highly sensitive to the choice of correlation and operating conditions. A seemingly
+  small reduction in pressure shifted the phase behaviour dramatically, which reinforced how
+  carefully thermodynamic assumptions must be selected in real process design. We will think more
+  critically about our modelling choices going forward.
+
+  \item \textbf{Always verify with back-substitution.}
+  We adopted back-substitution as a non-negotiable final step for every linear system we solved.
+  More than once it caught a transcription error that would otherwise have gone unnoticed. It takes
+  only seconds but provides genuine confidence that the solution is correct---a habit we intend to
+  carry into our future engineering work.
+
+\end{enumerate}
 
 \end{document}
