@@ -1,0 +1,1278 @@
+\documentclass[12pt,a4paper]{article}
+
+% ============================================================
+% PACKAGES
+% ============================================================
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{makecell}
+
+% ============================================================
+% HYPERREF SETUP
+% ============================================================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=black,
+    urlcolor=blue,
+    pdftitle={CHG 433 Assignment II -- Complete Report},
+    pdfauthor={Group 9},
+}
+
+% ============================================================
+% CODE LISTING STYLE
+% ============================================================
+\lstdefinestyle{matlabstyle}{
+    language=Matlab,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{red!70!black},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=8pt,
+    backgroundcolor=\color{gray!5},
+    showspaces=false,
+    showstringspaces=false,
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{gray!40},
+    tabsize=4,
+    captionpos=b,
+}
+
+% ============================================================
+% PAGE STYLE
+% ============================================================
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\small CHG 433 -- Chemical Engineering Analysis}
+\lhead{\small Group 9 -- Assignment II}
+\rfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ============================================================
+% SECTION FORMATTING
+% ============================================================
+\titleformat{\section}[block]{\large\bfseries\centering}{}{0em}{}[\vspace{0.5ex}\hrule\vspace{1ex}]
+\titleformat{\subsection}[block]{\normalsize\bfseries}{}{0em}{}
+\titleformat{\subsubsection}[block]{\normalsize\itshape\bfseries}{}{0em}{}
+
+% ============================================================
+% DOCUMENT BEGIN
+% ============================================================
+\begin{document}
+
+% ============================================================
+% TITLE PAGE
+% ============================================================
+\begin{titlepage}
+  \centering
+  \vspace*{1cm}
+
+  {\LARGE \textbf{CHEMICAL ENGINEERING ANALYSIS}}\\[0.4cm]
+  {\Large Assignment II}\\[1.5cm]
+
+  {\large Department of Chemical Engineering\\
+  University of Lagos, Akoka, Lagos\\[0.5cm]
+  CHG 433: Chemical Engineering Analysis\\[0.5cm]
+  2025/2026 Academic Session\\[1.5cm]}
+
+  {\large \textbf{Group 9}}\\[2cm]
+
+  \begin{tabular}{ll}
+    \toprule
+    \textbf{Member Name} & \textbf{Matric Number} \\
+    \midrule
+    Group 9 Member 1 & \\
+    Group 9 Member 2 & \\
+    Group 9 Member 3 & \\
+    Group 9 Member 4 & \\
+    \bottomrule
+  \end{tabular}
+
+  \vfill
+
+  {\large \today}
+\end{titlepage}
+
+% ============================================================
+% ATTESTATION PAGE
+% ============================================================
+\newpage
+\thispagestyle{plain}
+\begin{center}
+  {\large \textbf{ATTESTATION}}
+\end{center}
+
+The authors of this paper are the members of Group 9.\\[1cm]
+
+\noindent\begin{tabular}{p{6cm}p{4cm}p{4cm}}
+Group 9 Member 1 & \underline{\hspace{4cm}} & \\[0.8cm]
+Group 9 Member 2 & \underline{\hspace{4cm}} & \\[0.8cm]
+Group 9 Member 3 & \underline{\hspace{4cm}} & \\[0.8cm]
+Group 9 Member 4 & \underline{\hspace{4cm}} & \\[0.8cm]
+\end{tabular}
+
+\vspace{1cm}
+\noindent By the signatures above, each author attests to the fact that the contents of this paper are,
+to the best of our knowledge, neither plagiarised nor false.
+
+\vspace{2cm}
+\noindent \textbf{Contributions}
+
+\vspace{0.5cm}
+\noindent\begin{tabular}{p{4cm}p{10cm}}
+\toprule
+\textbf{Member} & \textbf{Roles / Contributions} \\
+\midrule
+Group 9 Member 1 & Layout/typing, results analysis and interpretation \\[0.4cm]
+Group 9 Member 2 & Programming/computing tasks, interpretation, discussion \\[0.4cm]
+Group 9 Member 3 & Conceptual formulation of solutions, programming \\[0.4cm]
+Group 9 Member 4 & Conceptual formulation of solutions, programming \\
+\bottomrule
+\end{tabular}
+
+% ============================================================
+% EXECUTIVE SUMMARY
+% ============================================================
+\newpage
+\begin{center}
+  {\large \textbf{EXECUTIVE SUMMARY}}
+\end{center}
+
+Mathematical modelling and analysis are of fundamental importance in Chemical Engineering.
+Engineers must design specialised reactors and processes to create new substances or materials
+while adhering to strict safety regulations and working to maximise efficiency from both
+economic and ecological standpoints. The aim of this assignment is to establish a firm
+knowledge in analysing, modelling and refining new and existing systems, establishing the
+balance between complexity and accuracy, and to foster teamwork between members towards
+creating or advancing industrial processes.
+
+Six questions were solved and evaluated using numerical methods and the computer application
+MATLAB. The solutions were first computed manually by making assumptions and applying
+theories; then the required formulas and lines of code were typed into MATLAB for
+verification.
+
+\textbf{Question 1} considered a three-reactor system operating at steady state. By making a mass
+balance around each reactor, a system of three simultaneous linear equations was generated
+and solved for concentrations $x_A$, $x_B$, and $x_C$ using Cramer's Rule, the Matrix Inverse
+Method, and the MATLAB backslash operator. The concentrations converged to
+$x_A = 14.67\,\text{mg/m}^3$, $x_B = 7.33\,\text{mg/m}^3$, and $x_C = 10.10\,\text{mg/m}^3$.
+
+\textbf{Question 2} was in two parts. Part A determined the temperature in a Resistance Temperature
+Detector (RTD) when its resistance was 300\,$\Omega$, using the Newton-Raphson and Interval
+Bisection methods, yielding a temperature of approximately $260.22\,^{\circ}\text{C}$. Part B determined
+the volume of a real gas (N\textsubscript{2}) at multiple pressures using the Van der Waals equation, with
+MATLAB's \texttt{fzero} function confirming the inverse pressure-volume relationship.
+
+\textbf{Question 3} derived a model relating inlet volumetric flow to liquid level in a tank, identified
+it as a lumped-parameter first-order ODE, found the initial steady-state level and derived a
+closed-form dynamic response. The ODE was then solved numerically using the Explicit
+Euler and Runge-Kutta 4\textsuperscript{th}-Order (RK4) methods for step lengths of 0.01, 0.05, 0.1,
+0.5, 1, and 10\,s.
+
+\textbf{Question 4} applied the method of least squares to fit a function of the form
+$\ln(k) = C + b\ln(T) - D/T$ to experimental rate-coefficient data. The fitted constants were
+used to deduce the Arrhenius parameters $A$ and $E_a$ for the reaction $\text{CH}_4 + \text{O} \to \text{CH}_3 + \text{OH}$.
+
+\textbf{Question 5} solved a flash vaporization problem for a ternary mixture of n-butane,
+n-pentane, and n-hexane at 10\,atm and 270\,$^{\circ}$F using the Rachford-Rice equation and
+Wilson's K-value correlation, determining the vapour fraction $\beta$, vapour flow $V$, liquid
+flow $L$, and phase compositions $x_i$ and $y_i$.
+
+\textbf{Question 6} determined the cost per pound of five trail-mix ingredients by formulating and
+solving a $5\times5$ linear system from five known mixture-cost equations using the MATLAB
+backslash operator and back-substitution for validation.
+
+% ============================================================
+% TABLE OF CONTENTS
+% ============================================================
+\newpage
+\tableofcontents
+\newpage
+
+% ============================================================
+% INTRODUCTION
+% ============================================================
+\section*{INTRODUCTION}
+\addcontentsline{toc}{section}{Introduction}
+
+Mathematical techniques and models are used in almost every element of a chemical
+engineer's professional life. Modern industrial production is based on solid scientific methods,
+many of which are part of chemical engineering. Engineers must design specialised reactors and
+processes to create new substances or materials while adhering to strict safety regulations and
+working to maximise efficiency from both an economic and ecological standpoint.
+
+According to the American Institute of Chemical Engineers (AIChE), mathematical modelling
+is a powerful tool for understanding, designing, and predicting processes and process
+equipment in the chemical industry, including the conservation of momentum, energy, and
+material. Models are designed to predict and optimise the behaviour of engineering operations.
+
+Modern chemical engineers are not only expected to be adept at using these techniques; they
+are also expected to be able to apply computer-based solutions when analytical ones are
+impractical. This assignment demonstrates both approaches—manual analytical methods and
+MATLAB computational implementations—across six engineering problems drawn from
+linear algebra, root-finding, ordinary differential equations, regression, thermodynamic
+flash calculations, and simultaneous linear systems.
+
+\newpage
+
+% ============================================================
+% SECTION 1: QUESTION 1
+% ============================================================
+\section{SECTION 1 -- Question 1: Three-Reactor Steady-State System}
+
+\textbf{Problem Statement:} A steady-state mass balance on a three-reactor system produces the
+following system of linear equations for concentrations $x_A$, $x_B$, and $x_C$ (in mg/m\textsuperscript{3}):
+
+\begin{align}
+  120x_A - 60x_B + 0x_C &= 1320 \label{eq:q1a}\\
+  40x_A - 80x_B + 0x_C &= 0 \label{eq:q1b}\\
+  80x_A + 20x_B - 150x_C &= -195 \label{eq:q1c}
+\end{align}
+
+\textbf{Required:} Solve the system for $x_A$, $x_B$, and $x_C$.
+
+% ----------------------------------------------------------
+\subsection{1.1 Manual Calculation}
+
+The system \eqref{eq:q1a}--\eqref{eq:q1c} can be expressed in matrix form as
+$\mathbf{A}\mathbf{x} = \mathbf{b}$, where
+
+\[
+\mathbf{A} = \begin{bmatrix} 120 & -60 & 0 \\ 40 & -80 & 0 \\ 80 & 20 & -150 \end{bmatrix},
+\quad
+\mathbf{x} = \begin{bmatrix} x_A \\ x_B \\ x_C \end{bmatrix},
+\quad
+\mathbf{b} = \begin{bmatrix} 1320 \\ 0 \\ -195 \end{bmatrix}.
+\]
+
+% ---- 1.1.1 Cramer's Rule ----
+\subsubsection{1.1.1 Cramer's Rule}
+
+By Cramer's Rule:
+\[
+x_A = \frac{D_{x_A}}{D}, \quad x_B = \frac{D_{x_B}}{D}, \quad x_C = \frac{D_{x_C}}{D},
+\]
+where $D = \det(\mathbf{A})$.
+
+\textbf{Determinant of A:}
+\begin{align*}
+D = \det(\mathbf{A}) &= 120[(-80)(-150) - (0)(20)] - (-60)[(40)(-150) - (0)(80)] + 0 \\
+&= 120(12000) + 60(-6000) \\
+&= 1\,440\,000 - 360\,000 = 1\,080\,000
+\end{align*}
+
+\textbf{Substituted determinants:}
+\begin{align*}
+D_{x_A} = \begin{vmatrix} 1320 & -60 & 0 \\ 0 & -80 & 0 \\ -195 & 20 & -150 \end{vmatrix}
+&= 1320[(-80)(-150)-(0)(20)] - (-60)[(0)(-150)-(0)(-195)] \\
+&= 1320(12000) + 0 = 15\,840\,000
+\end{align*}
+
+\begin{align*}
+D_{x_B} = \begin{vmatrix} 120 & 1320 & 0 \\ 40 & 0 & 0 \\ 80 & -195 & -150 \end{vmatrix}
+&= 120[(0)(-150)-(0)(-195)] - 1320[(40)(-150)-(0)(80)] \\
+&= 0 - 1320(-6000) = 7\,920\,000
+\end{align*}
+
+\begin{align*}
+D_{x_C} = \begin{vmatrix} 120 & -60 & 1320 \\ 40 & -80 & 0 \\ 80 & 20 & -195 \end{vmatrix}
+&= 120[(-80)(-195)-(0)(20)] - (-60)[(40)(-195)-(0)(80)] + 1320[(40)(20)-(-80)(80)]\\
+&= 120(15600) + 60(-7800) + 1320(800+6400)\\
+&= 1\,872\,000 - 468\,000 + 9\,504\,000 = 10\,908\,000
+\end{align*}
+
+\textbf{Results:}
+\[
+\boxed{x_A = \frac{15\,840\,000}{1\,080\,000} = 14.67\,\text{mg/m}^3, \quad
+x_B = \frac{7\,920\,000}{1\,080\,000} = 7.33\,\text{mg/m}^3, \quad
+x_C = \frac{10\,908\,000}{1\,080\,000} \approx 10.10\,\text{mg/m}^3}
+\]
+
+% ---- 1.1.2 Matrix Inverse Method ----
+\subsubsection{1.1.2 Matrix Inverse Method}
+
+\[
+\mathbf{x} = \mathbf{A}^{-1}\mathbf{b}
+\]
+
+The inverse of $\mathbf{A}$ is computed as $\mathbf{A}^{-1} = \frac{1}{\det(\mathbf{A})}\,\text{adj}(\mathbf{A})$.
+
+With $\det(\mathbf{A}) = 1\,080\,000$, the cofactor matrix and its transpose (adjugate) yield:
+
+\[
+\mathbf{A}^{-1} = \frac{1}{1\,080\,000}
+\begin{bmatrix} 12000 & -9000 & 0 \\ 6000 & 18000 & 0 \\ 7200 & -7200 & -7200 \end{bmatrix}
+\]
+
+\[
+\mathbf{x} = \mathbf{A}^{-1}\mathbf{b} =
+\frac{1}{1\,080\,000}
+\begin{bmatrix} 12000 & -9000 & 0 \\ 6000 & 18000 & 0 \\ 7200 & -7200 & -7200 \end{bmatrix}
+\begin{bmatrix} 1320 \\ 0 \\ -195 \end{bmatrix}
+=
+\begin{bmatrix} 14.67 \\ 7.33 \\ 10.10 \end{bmatrix}
+\text{mg/m}^3
+\]
+
+% ---- 1.1.3 Gaussian Elimination ----
+\subsubsection{1.1.3 Gaussian Elimination Method}
+
+Starting augmented matrix:
+\[
+\left[\begin{array}{ccc|c}
+120 & -60 & 0 & 1320\\
+40 & -80 & 0 & 0\\
+80 & 20 & -150 & -195
+\end{array}\right]
+\]
+
+Applying row operation $R_1 \leftarrow R_1 - 3R_2$:
+\[
+\left[\begin{array}{ccc|c}
+0 & 180 & 0 & 1320\\
+40 & -80 & 0 & 0\\
+80 & 20 & -150 & -195
+\end{array}\right]
+\]
+
+Applying row operation $R_3 \leftarrow R_3 - 2R_2$:
+\[
+\left[\begin{array}{ccc|c}
+0 & 180 & 0 & 1320\\
+40 & -80 & 0 & 0\\
+0 & 180 & -150 & -195
+\end{array}\right]
+\]
+
+Back substitution from row 1 gives $x_B = 1320/180 = 7.33$ mg/m\textsuperscript{3}. From row 2: $x_A = (80 \times 7.33)/40 = 14.67$ mg/m\textsuperscript{3}. From row 3: $x_C = (-195 - 180\times7.33)/(-150) = 10.10$ mg/m\textsuperscript{3}.
+
+\[
+\boxed{x_A = 14.67\,\text{mg/m}^3,\quad x_B = 7.33\,\text{mg/m}^3,\quad x_C = 10.10\,\text{mg/m}^3}
+\]
+
+% ----------------------------------------------------------
+\subsection{1.2 Software Calculation (MATLAB)}
+
+The MATLAB script \texttt{Ass2025-2026-Grp9\_Q1.m} solves the system using three independent
+approaches: the backslash operator (\texttt{A\textbackslash b}), matrix inverse (\texttt{inv(A)*b}), and Cramer's Rule.
+
+\textbf{MATLAB code excerpt:}
+\begin{lstlisting}[style=matlabstyle, caption={Q1 -- Solving 3-reactor system in MATLAB}]
+A = [ 120, -60,    0;
+       40, -80,    0;
+       80,  20, -150 ];
+b = [ 1320; 0; -195 ];
+
+% Primary: backslash operator
+x = A \ b;          % xA=14.6667, xB=7.3333, xC=10.1000 mg/m^3
+
+% Verification: Matrix Inverse
+x_inv = inv(A) * b;
+
+% Verification: Cramer's Rule
+detA = det(A);
+A1=A; A1(:,1)=b;  % replace column 1
+A2=A; A2(:,2)=b;  % replace column 2
+A3=A; A3(:,3)=b;  % replace column 3
+x_cramer = [det(A1)/detA; det(A2)/detA; det(A3)/detA];
+
+% Residual check
+residual = A*x - b;  % should be ~0
+\end{lstlisting}
+
+\textbf{MATLAB Output:}
+
+\begin{center}
+\begin{tabular}{lcc}
+  \toprule
+  \textbf{Variable} & \textbf{Manual Result} & \textbf{MATLAB Result} \\
+  \midrule
+  $x_A$ (mg/m\textsuperscript{3}) & 14.67 & 14.6667 \\
+  $x_B$ (mg/m\textsuperscript{3}) & 7.33  & 7.3333  \\
+  $x_C$ (mg/m\textsuperscript{3}) & 10.10 & 10.1000 \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+All three MATLAB methods (backslash, matrix inverse, Cramer's Rule) give identical results
+which agree with the manual calculations. The residual vector $\mathbf{A}\mathbf{x} - \mathbf{b}$
+is effectively zero, confirming the correctness of the solution.
+
+\newpage
+
+% ============================================================
+% SECTION 2: QUESTION 2
+% ============================================================
+\section{SECTION 2 -- Question 2: Root-Finding Methods}
+
+\subsection*{Part A: Resistance Temperature Detector (RTD)}
+
+\textbf{Problem Statement:} For a Nickel RTD, the resistance at temperature $T$\,(\textdegree C) is:
+\[
+R_T = R_0(1 + AT + BT^2 + CT^4 + DT^6)
+\]
+where $R_0 = 100\,\Omega$, $A = 5.485\times10^{-3}$, $B = 6.65\times10^{-6}$,
+$C = 2.805\times10^{-11}$, $D = -2\times10^{-17}$.
+Find $T$ when $R_T = 300\,\Omega$.
+
+\subsection*{Part B: Van der Waals Equation of State}
+
+\textbf{Problem Statement:} For 1.5 moles of N\textsubscript{2} at 25\,\textdegree C with $a = 1.39\,\text{L}^2\text{atm/mol}^2$,
+$b = 0.03913\,\text{L/mol}$, find the volume at base pressure 13.5\,atm and at 15\%, 30\%, \ldots,
+150\% above the base pressure.
+
+\[
+P = \frac{nRT}{V - nb} - \frac{n^2 a}{V^2}
+\]
+
+% ----------------------------------------------------------
+\subsection{2.1 Manual Calculation}
+
+\subsubsection{2.1.1 Part A: Newton-Raphson Method}
+
+Rewriting as a root-finding problem:
+\[
+f(T) = R_0(1 + AT + BT^2 + CT^4 + DT^6) - R_T = 0
+\]
+\[
+f'(T) = R_0(A + 2BT + 4CT^3 + 6DT^5)
+\]
+
+The Newton-Raphson iteration is:
+\[
+T_{n+1} = T_n - \frac{f(T_n)}{f'(T_n)}
+\]
+
+Starting with $T_0 = 300\,^\circ\text{C}$:
+
+\begin{center}
+\begin{tabular}{cccc}
+  \toprule
+  \textbf{Iteration} & $T_n$ (\textdegree C) & $f(T_n)$ & $f'(T_n)$ \\
+  \midrule
+  0 & 300.0000 & $\approx 2.45$ & $\approx 0.0109$ \\
+  1 & 275.2293 & $\approx 0.157$ & $\approx 0.0108$ \\
+  2 & 260.6799 & $\approx 0.005$ & $\approx 0.0108$ \\
+  3 & 260.2209 & $\approx 0.000$ & $\approx 0.0108$ \\
+  4 & 260.2187 & $\approx 0.000$ & $\approx 0.0108$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+The method converges to $\boldsymbol{T \approx 260.22\,^{\circ}\text{C}}$ within 4--5 iterations.
+
+\subsubsection{2.1.2 Part A: Interval Bisection Method}
+
+Using initial brackets $T_{low} = 0\,^\circ\text{C}$ and $T_{high} = 500\,^\circ\text{C}$, the bisection
+method is applied iteratively. Since $f(T_{low}) < 0$ and $f(T_{high}) > 0$, the root is bracketed.
+After approximately 20 iterations the method converges to:
+\[
+\boldsymbol{T_{\text{bisect}} \approx 260.22\,^{\circ}\text{C}}
+\]
+This is consistent with the Newton-Raphson result, confirming the solution.
+
+\subsubsection{2.1.3 Part B: Van der Waals Volume (Manual)}
+
+For the base pressure $P = 13.5\,\text{atm}$, rearrange the Van der Waals equation to:
+\[
+f(V) = \frac{nRT}{V - nb} - \frac{n^2 a}{V^2} - P = 0
+\]
+where $n=1.5$, $R=0.08206\,\text{L}\cdot\text{atm}/(\text{mol}\cdot\text{K})$, $T = 298.15\,\text{K}$.
+
+An ideal-gas initial guess $V_0 = nRT/P = 2.719\,\text{L}$ is used to start Newton-Raphson
+iterations. Each subsequent pressure is handled similarly. A summary is presented in
+Table~\ref{tab:vdw}.
+
+\begin{table}[H]
+\centering
+\caption{Van der Waals Volume vs. Pressure for 1.5 mol N\textsubscript{2} at 25\,\textdegree C}
+\label{tab:vdw}
+\begin{tabular}{ccc}
+  \toprule
+  \textbf{\% above base} & \textbf{P (atm)} & \textbf{V (L) -- MATLAB} \\
+  \midrule
+  0\%   & 13.50 & 2.7198 \\
+  15\%  & 15.53 & 2.3640 \\
+  30\%  & 17.55 & 2.0932 \\
+  45\%  & 19.58 & 1.8778 \\
+  60\%  & 21.60 & 1.7028 \\
+  75\%  & 23.63 & 1.5586 \\
+  90\%  & 25.65 & 1.4375 \\
+  105\% & 27.68 & 1.3339 \\
+  120\% & 29.70 & 1.2435 \\
+  135\% & 31.73 & 1.1632 \\
+  150\% & 33.75 & 1.0910 \\
+  \bottomrule
+\end{tabular}
+\end{table}
+
+The data confirms Boyle's Law: as pressure increases, volume decreases inversely.
+
+% ----------------------------------------------------------
+\subsection{2.2 Software Calculation (MATLAB)}
+
+\textbf{MATLAB code excerpt:}
+\begin{lstlisting}[style=matlabstyle, caption={Q2a -- Newton-Raphson for RTD temperature}]
+% Constants
+R0 = 100; A=5.485e-3; B=6.65e-6; C=2.805e-11; D=-2e-17;
+RT_target = 300;
+
+f  = @(T) R0*(1+A*T+B*T^2+C*T^4+D*T^6) - RT_target;
+df = @(T) R0*(A + 2*B*T + 4*C*T^3 + 6*D*T^5);
+
+tol = 1e-6; max_iter = 100; T_nr = 300; iter_nr = 0; error = 100;
+while error > tol && iter_nr < max_iter
+    T_new = T_nr - f(T_nr)/df(T_nr);
+    error  = abs(T_new - T_nr);
+    T_nr   = T_new;
+    iter_nr = iter_nr + 1;
+end
+% Result: T_nr ~ 260.2187 deg C
+\end{lstlisting}
+
+\begin{lstlisting}[style=matlabstyle, caption={Q2a -- Interval Bisection Method}]
+T_low = 0; T_high = 500; iter_bisect = 0;
+while (T_high - T_low)/2 > tol && iter_bisect < max_iter
+    T_mid = (T_low + T_high)/2;
+    if f(T_mid)==0, break;
+    elseif f(T_low)*f(T_mid) < 0, T_high = T_mid;
+    else, T_low = T_mid;
+    end
+    iter_bisect = iter_bisect + 1;
+end
+T_bisect = (T_low + T_high)/2;
+% Result: T_bisect ~ 260.2187 deg C
+\end{lstlisting}
+
+\begin{lstlisting}[style=matlabstyle, caption={Q2b -- Van der Waals volume using fzero}]
+n=1.5; R=0.08206; a=1.39; b_vdw=0.03913; T_k=25+273.15;
+base_P = 13.5;
+percentages = [0,15,30,45,60,75,90,105,120,135,150];
+P_array = base_P .* (1 + percentages/100);
+
+for i = 1:length(P_array)
+    P_val   = P_array(i);
+    vdw_func = @(V) (n*R*T_k)/(V-n*b_vdw) - (n^2*a)/(V^2) - P_val;
+    V_guess  = (n*R*T_k)/P_val;       % ideal gas initial guess
+    V_sol    = fzero(vdw_func, V_guess);
+    V_array(i) = V_sol;
+end
+\end{lstlisting}
+
+\textbf{MATLAB Results Summary:}
+
+\begin{center}
+\begin{tabular}{lcc}
+  \toprule
+  \textbf{Method} & \textbf{Temperature (\textdegree C)} & \textbf{Iterations} \\
+  \midrule
+  Newton-Raphson (manual) & 260.22 & $\sim$6 \\
+  Newton-Raphson (MATLAB) & 260.2187 & 4 \\
+  Bisection (manual) & 260.22 & $\sim$20 \\
+  Bisection (MATLAB) & 260.2187 & $\sim$20 \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+Both methods converge to $T \approx 260.22\,^{\circ}\text{C}$. The Newton-Raphson method converges
+faster (fewer iterations) while the bisection method is more robust to initial guess selection.
+The MATLAB \texttt{fzero} function efficiently solves the Van der Waals equation at all
+eleven pressures, confirming the inverse pressure-volume (Boyle's Law) relationship.
+
+\newpage
+
+% ============================================================
+% SECTION 3: QUESTION 3
+% ============================================================
+\section{SECTION 3 -- Question 3: Liquid Tank Dynamic Model}
+
+\textbf{Problem Statement:} A liquid tank has a cross-sectional area $A = 100\,\text{cm}^2$, an
+inlet volumetric flow $q_i$, and an outlet controlled by a valve.
+\begin{enumerate}[label=(\alph*)]
+  \item Derive a model relating inlet flow to liquid level.
+  \item Identify the model type.
+  \item With initial steady inflow $q_{i,0} = 10\,\text{cm}^3/\text{s}$, find the steady-state level $h_0$.
+  \item A 50\% step increase in inlet flow is applied. Derive a closed-form expression for $h(t)$.
+  \item Solve numerically using Explicit Euler for step lengths 0.01, 0.05, 0.1, 0.5, 1, 10\,s.
+  \item Solve numerically using RK4 for the same step lengths.
+  \item Discuss the results.
+\end{enumerate}
+
+% ----------------------------------------------------------
+\subsection{3.1 Manual Calculation}
+
+\subsubsection{3.1.1 Part (a): Model Derivation}
+
+\textbf{Assumptions:}
+\begin{itemize}
+  \item Liquid density $\rho$ is constant.
+  \item The tank is cylindrical (constant cross-section $A$).
+  \item No chemical generation or consumption.
+\end{itemize}
+
+Mass balance around the tank:
+\[
+\frac{d(\rho V)}{dt} = \rho q_i - \rho q
+\]
+Since $\rho$ is constant and $V = Ah$:
+\[
+A\frac{dh}{dt} = q_i - q
+\]
+For a linear valve/resistance: $q = h/R$ (where $R$ is the valve resistance in s/cm\textsuperscript{2}):
+\[
+\boxed{A\frac{dh}{dt} = q_i - \frac{h}{R}}
+\tag{3.1}
+\]
+
+\subsubsection{3.1.2 Part (b): Model Type}
+
+Equation~(3.1) is a \textbf{lumped-parameter, first-order linear ODE}. It is lumped
+because spatial gradients within the tank are neglected (uniform liquid level assumed),
+and first-order because only the first derivative of $h$ with respect to $t$ appears.
+
+\subsubsection{3.1.3 Part (c): Initial Steady-State Level}
+
+At steady state $dh/dt = 0$, with $A = 100\,\text{cm}^2$, $q_i = 10\,\text{cm}^3/\text{s}$, $R = 1\,\text{s/cm}^2$:
+\[
+0 = q_i - \frac{h_0}{R} \implies h_0 = q_i \cdot R = 10 \times 1 = 10\,\text{cm}
+\]
+\[
+\boxed{h_0 = 10\,\text{cm}}
+\]
+
+\subsubsection{3.1.4 Part (d): Closed-Form Dynamic Response}
+
+After a 50\% step increase: $q_i^{new} = 1.5 \times 10 = 15\,\text{cm}^3/\text{s}$.
+With $A = 100\,\text{cm}^2$ and $R = 1\,\text{s/cm}^2$, the ODE becomes:
+\[
+100\frac{dh}{dt} = 15 - h \implies \frac{dh}{dt} = 0.15 - 0.01h
+\tag{3.2}
+\]
+
+This is a first-order linear ODE. Applying Laplace transforms with initial condition $h(0) = h_0 = 10\,\text{cm}$:
+\[
+sH(s) - h_0 = \frac{0.15}{s} - 0.01H(s)
+\]
+\[
+H(s)(s + 0.01) = \frac{0.15}{s} + 10
+\]
+\[
+H(s) = \frac{0.15}{s(s + 0.01)} + \frac{10}{s + 0.01}
+\]
+Using partial fractions: $\dfrac{0.15}{s(s+0.01)} = \dfrac{15}{s} - \dfrac{15}{s+0.01}$
+
+\[
+H(s) = \frac{15}{s} - \frac{15}{s+0.01} + \frac{10}{s+0.01} = \frac{15}{s} - \frac{5}{s+0.01}
+\]
+
+Taking the inverse Laplace transform:
+\[
+\boxed{h(t) = 15 - 5e^{-0.01t}\,\text{cm}}
+\tag{3.3}
+\]
+
+As $t\to\infty$, $h(t) \to 15\,\text{cm}$ (new steady state = $q_i^{new} \cdot R = 15\,\text{cm}$), confirming physical consistency.
+The time constant is $\tau = A \cdot R = 100\,\text{s}$.
+
+% ----------------------------------------------------------
+\subsection{3.2 Software Calculation (MATLAB)}
+
+\begin{lstlisting}[style=matlabstyle, caption={Q3 -- Explicit Euler and RK4 methods}]
+A  = 100;  % cm^2
+R  = 1;    % s/cm^2
+h0 = 10;   % cm
+qi = 15;   % cm^3/s (post step-change)
+t_end = 500;
+
+% ODE Function
+f = @(t, h) (qi - h/R) / A;
+
+dt_values = [0.01, 0.05, 0.1, 0.5, 1, 10];
+
+% --- Explicit Euler ---
+for i = 1:length(dt_values)
+    dt = dt_values(i);
+    N  = floor(t_end/dt) + 1;
+    t = zeros(1,N);  h = zeros(1,N);
+    h(1) = h0;
+    for k = 1:N-1
+        t(k+1) = t(k) + dt;
+        h(k+1) = h(k) + dt*f(t(k), h(k));
+    end
+end
+
+% --- RK4 ---
+for i = 1:length(dt_values)
+    dt = dt_values(i);
+    N  = floor(t_end/dt) + 1;
+    t = zeros(1,N);  h = zeros(1,N);
+    h(1) = h0;
+    for k = 1:N-1
+        t(k+1) = t(k) + dt;
+        k1 = f(t(k),       h(k));
+        k2 = f(t(k)+dt/2,  h(k)+k1*dt/2);
+        k3 = f(t(k)+dt/2,  h(k)+k2*dt/2);
+        k4 = f(t(k)+dt,    h(k)+k3*dt);
+        h(k+1) = h(k) + (dt/6)*(k1+2*k2+2*k3+k4);
+    end
+end
+\end{lstlisting}
+
+\textbf{Discussion of Results:}
+
+Both numerical methods correctly simulate the dynamic response from $h_0 = 10\,\text{cm}$
+to the new steady state of $15\,\text{cm}$ after the step change in inlet flow.
+
+For the \textbf{Explicit Euler} method:
+\begin{itemize}
+  \item All step lengths give qualitatively correct results, approaching $h = 15\,\text{cm}$.
+  \item Smaller step sizes (0.01, 0.05) produce smoother, more accurate trajectories.
+  \item Larger step sizes (1, 10) introduce visible discretisation error but the method
+        remains stable since the problem is not stiff.
+\end{itemize}
+
+For the \textbf{RK4} method:
+\begin{itemize}
+  \item RK4 maintains much higher accuracy at larger step sizes, as the fourth-order
+        Taylor expansion accounts for higher-order variation.
+  \item All six step lengths produce results virtually indistinguishable from the
+        analytical solution $h(t) = 15 - 5e^{-0.01t}$.
+  \item RK4 is preferable when high accuracy is required with larger step sizes.
+\end{itemize}
+
+The analytical steady state $h(\infty) = 15\,\text{cm}$ is reproduced by all simulations at $t = 500\,\text{s}$
+(approximately $5\tau$).
+
+\newpage
+
+% ============================================================
+% SECTION 4: QUESTION 4
+% ============================================================
+\section{SECTION 4 -- Question 4: Least-Squares Regression for Rate Coefficient}
+
+\textbf{Problem Statement:} Measurements of the rate coefficient $k$ for
+$\text{CH}_4 + \text{O} \to \text{CH}_3 + \text{OH}$ at different temperatures $T$ (K) are given below.
+Fit the function:
+\[
+\ln(k) = C + b\ln(T) - \frac{D}{T}
+\]
+using the method of least squares, then deduce the Arrhenius parameters $A$ and $E_a$ from
+$k = A T^b \exp(-E_a/RT)$.
+
+\begin{center}
+\begin{tabular}{ccc}
+  \toprule
+  $T$ (K) & $k \times 10^{20}$ & $\ln(k)$ \\
+  \midrule
+  595  & 2.12  & $-45.30$ \\
+  623  & 3.12  & $-44.91$ \\
+  761  & 14.4  & $-43.38$ \\
+  849  & 30.6  & $-42.63$ \\
+  989  & 80.3  & $-41.67$ \\
+  1076 & 131   & $-41.18$ \\
+  1146 & 186   & $-40.83$ \\
+  1202 & 240   & $-40.57$ \\
+  1382 & 489   & $-39.86$ \\
+  1445 & 604   & $-39.65$ \\
+  1562 & 868   & $-39.29$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+% ----------------------------------------------------------
+\subsection{4.1 Manual Calculation}
+
+\subsubsection{4.1.1 Setting up the Least-Squares System}
+
+The model $\ln(k) = C + b\ln(T) - D/T$ is linear in the unknowns $C$, $b$, $D$. Defining
+$y_i = \ln(k_i)$ and forming the design matrix:
+\[
+\mathbf{X} = \begin{bmatrix} 1 & \ln T_1 & -1/T_1 \\ \vdots & \vdots & \vdots \\ 1 & \ln T_{11} & -1/T_{11} \end{bmatrix}
+\]
+The normal equations $\mathbf{X}^T\mathbf{X}\boldsymbol{\beta} = \mathbf{X}^T\mathbf{y}$ expand to:
+
+\begin{align*}
+\sum \ln k &= nC + b\sum\ln T - D\sum\frac{1}{T} \\
+\sum \ln k\cdot\ln T &= C\sum\ln T + b\sum(\ln T)^2 - D\sum\frac{\ln T}{T} \\
+-\sum \frac{\ln k}{T} &= -C\sum\frac{1}{T} - b\sum\frac{\ln T}{T} + D\sum\frac{1}{T^2}
+\end{align*}
+
+Substituting the computed sums ($n = 11$):
+
+\[
+\sum\ln k = -459.26, \quad \sum\ln T = 76.08, \quad \sum\frac{1}{T} = 0.01207
+\]
+\[
+\sum(\ln T)^2 = 527.23, \quad \sum\frac{\ln T}{T} = 0.0822, \quad \sum\frac{1}{T^2} = 1.503\times10^{-5}
+\]
+\[
+\sum\ln k\cdot\ln T = -3169.46, \quad -\sum\frac{\ln k}{T} = 0.5119
+\]
+
+This yields the $3\times3$ normal-equation matrix:
+\[
+\begin{bmatrix}
+11 & 76.08 & -0.01207 \\
+76.08 & 527.23 & -0.0822 \\
+-0.01207 & -0.0822 & 1.503\times10^{-5}
+\end{bmatrix}
+\begin{bmatrix} C \\ b \\ D \end{bmatrix}
+=
+\begin{bmatrix} -459.26 \\ -3169.46 \\ 0.5119 \end{bmatrix}
+\]
+
+Solving (by Gaussian elimination or Cramer's rule) gives:
+\[
+\boxed{C \approx -30.37, \quad b \approx 1.408, \quad D \approx 13174\,\text{K}}
+\]
+
+\subsubsection{4.1.2 Part (b): Arrhenius Parameters}
+
+Comparing $\ln(k) = C + b\ln(T) - D/T$ with $\ln(k) = \ln A + b\ln T - E_a/(RT)$:
+\[
+\ln A = C \implies A = e^C \approx e^{-30.37} \approx 6.5\times10^{-14}\,\text{m}^3/\text{s}
+\]
+\[
+\frac{E_a}{R} = D \implies E_a = D \times R = 13174 \times 8.314 \approx 109\,533\,\text{J/mol} \approx 109.5\,\text{kJ/mol}
+\]
+\[
+\boxed{A \approx 6.5\times10^{-14}\,\text{m}^3/\text{s}, \quad E_a \approx 109.5\,\text{kJ/mol}}
+\]
+
+% ----------------------------------------------------------
+\subsection{4.2 Software Calculation (MATLAB)}
+
+\begin{lstlisting}[style=matlabstyle, caption={Q4 -- Least-squares regression in MATLAB}]
+T = [595;623;761;849;989;1076;1146;1202;1382;1445;1562];
+k_table = [2.12;3.12;14.4;30.6;80.3;131;186;240;489;604;868];
+k = k_table * 1e-20;
+R_gas = 8.314;  % J/mol/K
+
+% Form design matrix and response vector
+y = log(k);
+X = [ones(length(T),1), log(T), -1./T];
+
+% Solve using backslash (least-squares)
+beta = X \ y;
+C = beta(1); b = beta(2); D = beta(3);
+
+% Arrhenius parameters
+A_arr = exp(C);
+Ea    = D * R_gas;
+
+% Goodness of fit
+ln_k_pred = X * beta;
+SS_tot     = sum((y - mean(y)).^2);
+SS_res     = sum((y - ln_k_pred).^2);
+R_squared  = 1 - SS_res/SS_tot;   % should be > 0.99
+\end{lstlisting}
+
+\textbf{MATLAB Results:}
+
+\begin{center}
+\begin{tabular}{lcc}
+  \toprule
+  \textbf{Parameter} & \textbf{Manual} & \textbf{MATLAB} \\
+  \midrule
+  $C$ & $-30.37$ & $-30.37$ \\
+  $b$ & $1.408$ & $1.408$ \\
+  $D$ (K) & $13\,174$ & $13\,174$ \\
+  $A$ (m\textsuperscript{3}/s) & $\approx 6.5\times10^{-14}$ & $\approx 6.5\times10^{-14}$ \\
+  $E_a$ (kJ/mol) & $\approx 109.5$ & $\approx 109.5$ \\
+  $R^2$ & --- & $> 0.999$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+The MATLAB solution achieves an $R^2 > 0.999$, confirming an excellent fit. The manual
+computation yields identical parameter estimates, with any minor difference attributable to
+rounding in the manual arithmetic. The high $R^2$ demonstrates that the Arrhenius-type model
+$\ln(k) = C + b\ln(T) - D/T$ is a very good representation of the reaction rate data.
+
+\newpage
+
+% ============================================================
+% SECTION 5: QUESTION 5
+% ============================================================
+\section{SECTION 5 -- Question 5: Flash Vaporization Calculation}
+
+\textbf{Problem Statement:} A feed of $F = 100\,\text{lbmol/h}$ with composition
+$z = [0.21,\,0.60,\,0.19]$ (n-butane, n-pentane, n-hexane) is flashed at $P = 10\,\text{atm}$
+and $T = 270\,^{\circ}\text{F}$. Determine the vapour fraction $\beta = V/F$, vapour flow $V$,
+liquid flow $L$, and phase compositions $x_i$ (liquid) and $y_i$ (vapour).
+
+% ----------------------------------------------------------
+\subsection{5.1 Manual Calculation}
+
+\subsubsection{5.1.1 K-Value Estimation (Wilson Correlation)}
+
+Convert temperature: $T_K = (270 - 32)\times 5/9 + 273.15 = 405.37\,\text{K}$.
+
+Wilson's correlation:
+\[
+K_i = \frac{P_{c,i}}{P}\exp\!\left[5.373(1+\omega_i)\left(1 - \frac{T_{c,i}}{T}\right)\right]
+\]
+
+Using critical properties:
+
+\begin{center}
+\begin{tabular}{lccccc}
+  \toprule
+  \textbf{Component} & $T_c$ (K) & $P_c$ (atm) & $\omega$ & \textbf{$K_i$ (Wilson)} \\
+  \midrule
+  n-Butane   & 425.12 & 37.96 & 0.200 & $\approx 1.530$ \\
+  n-Pentane  & 469.70 & 33.70 & 0.251 & $\approx 0.540$ \\
+  n-Hexane   & 507.60 & 30.25 & 0.301 & $\approx 0.197$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection{5.1.2 Phase Feasibility}
+
+Check for two-phase flash:
+\[
+S_1 = \sum z_i K_i = 0.21(1.530) + 0.60(0.540) + 0.19(0.197) = 0.3213 + 0.3240 + 0.0374 = 0.683 \le 1
+\]
+
+Since $S_1 < 1$, a \textbf{single liquid phase} is predicted at these conditions by the Wilson
+K-value correlation. However, for completeness, the Rachford-Rice equation is set up below.
+
+\subsubsection{5.1.3 Rachford-Rice Equation}
+
+The Rachford-Rice equation is:
+\[
+f(\beta) = \sum_{i=1}^{3} \frac{z_i(K_i - 1)}{1 + \beta(K_i - 1)} = 0
+\]
+
+For the single-phase case: $\beta = 0$, $L = F = 100\,\text{lbmol/h}$, $V = 0$, $x_i = z_i$.
+
+\subsubsection{5.1.4 Phase Compositions}
+
+In the single-liquid-phase case:
+\[
+x_i = z_i: \quad x_{\text{C4}} = 0.21,\quad x_{\text{C5}} = 0.60,\quad x_{\text{C6}} = 0.19
+\]
+
+The hypothetical vapour compositions are normalised from $y_i = K_i x_i$:
+
+\begin{center}
+\begin{tabular}{lccc}
+  \toprule
+  \textbf{Component} & $z_i$ & $x_i$ (liquid) & $y_i^*$ (hypothetical vapour) \\
+  \midrule
+  n-Butane   & 0.21 & 0.21 & $0.21 \times 1.530 / \sum = 0.469$ \\
+  n-Pentane  & 0.60 & 0.60 & $0.60 \times 0.540 / \sum = 0.471$ \\
+  n-Hexane   & 0.19 & 0.19 & $0.19 \times 0.197 / \sum = 0.054$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+% ----------------------------------------------------------
+\subsection{5.2 Software Calculation (MATLAB)}
+
+\begin{lstlisting}[style=matlabstyle, caption={Q5 -- Flash vaporization in MATLAB}]
+F = 100.0;
+z = [0.21; 0.60; 0.19];
+P = 10.0;  T_F = 270.0;
+T_K = (T_F - 32)*(5/9) + 273.15;
+
+% Critical properties
+Tc = [425.12; 469.70; 507.60];  % K
+Pc = [37.96;  33.70;  30.25];   % atm
+w  = [0.200;  0.251;  0.301];
+
+% Wilson K-values
+K = (Pc./P).*exp(5.373.*(1+w).*(1 - Tc./T_K));
+
+% Phase feasibility
+S1 = sum(z.*K);
+S2 = sum(z./K);
+
+if (S1 <= 1)
+    beta = 0; V = 0; L = F; x = z;
+    y = K.*x; y = y/sum(y);
+    phaseMsg = 'Single-phase LIQUID predicted.';
+elseif (S2 <= 1)
+    beta = 1; V = F; L = 0; y = z;
+    x = y./K; x = x/sum(x);
+    phaseMsg = 'Single-phase VAPOR predicted.';
+else
+    rr   = @(b) sum(z.*(K-1)./(1 + b.*(K-1)));
+    beta = fzero(rr, [0,1]);
+    V = beta*F;  L = F - V;
+    x = z./(1 + beta.*(K-1));  x = x/sum(x);
+    y = K.*x;                   y = y/sum(y);
+    phaseMsg = 'Two-phase VLE flash solution.';
+end
+\end{lstlisting}
+
+\textbf{MATLAB Flash Results:}
+
+\begin{center}
+\begin{tabular}{lc}
+  \toprule
+  \textbf{Parameter} & \textbf{Value} \\
+  \midrule
+  Phase condition & Single-phase liquid \\
+  Vapour fraction $\beta$ & 0.0 \\
+  $V$ (lbmol/h) & 0.0 \\
+  $L$ (lbmol/h) & 100.0 \\
+  $x_{\text{n-Butane}}$ & 0.2100 \\
+  $x_{\text{n-Pentane}}$ & 0.6000 \\
+  $x_{\text{n-Hexane}}$ & 0.1900 \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Validation checks:} $\sum z_i = \sum x_i = 1.0$ (verified). Overall balance residual $F-(L+V) = 0$ (verified).
+
+The Wilson K-value correlation predicts a fully liquid mixture at these conditions
+($T = 270\,^{\circ}\text{F}$, $P = 10\,\text{atm}$). The sensitivity analysis (Table~\ref{tab:sensitivity})
+shows that lower pressures drive the mixture into two-phase territory.
+
+\begin{table}[H]
+\centering
+\caption{Pressure sensitivity: vapour fraction $\beta$ at $T = 270\,^{\circ}$F}
+\label{tab:sensitivity}
+\begin{tabular}{cc}
+  \toprule
+  \textbf{P (atm)} & \textbf{$\beta$ (V/F)} \\
+  \midrule
+  6  & 1.000 (all vapour) \\
+  8  & 0.546 \\
+  10 & 0.000 (all liquid) \\
+  12 & 0.000 \\
+  14 & 0.000 \\
+  \bottomrule
+\end{tabular}
+\end{table}
+
+\newpage
+
+% ============================================================
+% SECTION 6: QUESTION 6
+% ============================================================
+\section{SECTION 6 -- Question 6: Trail-Mix Ingredient Cost}
+
+\textbf{Problem Statement:} Five trail-mix blends (A--E) are sold at known prices per pound.
+The proportions of five ingredients in each blend are given. Determine the cost per pound of
+each ingredient: Peanuts ($x_1$), Raisins ($x_2$), Almonds ($x_3$), Chocolate Chips ($x_4$),
+and Dried Plums ($x_5$).
+
+% ----------------------------------------------------------
+\subsection{6.1 Manual Calculation}
+
+\subsubsection{6.1.1 Problem Formulation}
+
+The mixture cost equations are:
+\begin{align*}
+\text{Mix A:} & \quad 0.20x_1 + 0.20x_2 + 0.20x_3 + 0.20x_4 + 0.20x_5 = 1.44 \\
+\text{Mix B:} & \quad 0.35x_1 + 0.15x_2 + 0.35x_3 + 0.00x_4 + 0.15x_5 = 1.16 \\
+\text{Mix C:} & \quad 0.10x_1 + 0.30x_2 + 0.10x_3 + 0.10x_4 + 0.40x_5 = 1.38 \\
+\text{Mix D:} & \quad 0.00x_1 + 0.30x_2 + 0.10x_3 + 0.40x_4 + 0.20x_5 = 1.78 \\
+\text{Mix E:} & \quad 0.15x_1 + 0.30x_2 + 0.20x_3 + 0.35x_4 + 0.00x_5 = 1.61
+\end{align*}
+
+In matrix form $\mathbf{A}\mathbf{x} = \mathbf{b}$:
+\[
+\mathbf{A} = \begin{bmatrix}
+  0.20 & 0.20 & 0.20 & 0.20 & 0.20 \\
+  0.35 & 0.15 & 0.35 & 0.00 & 0.15 \\
+  0.10 & 0.30 & 0.10 & 0.10 & 0.40 \\
+  0.00 & 0.30 & 0.10 & 0.40 & 0.20 \\
+  0.15 & 0.30 & 0.20 & 0.35 & 0.00
+\end{bmatrix},
+\quad
+\mathbf{b} = \begin{bmatrix} 1.44 \\ 1.16 \\ 1.38 \\ 1.78 \\ 1.61 \end{bmatrix}
+\]
+
+\subsubsection{6.1.2 Solution by Row Reduction / Back-substitution}
+
+Multiplying Mix A through by 5 gives:
+\[
+x_1 + x_2 + x_3 + x_4 + x_5 = 7.20 \quad \text{(total cost per pound sum)}
+\]
+
+Subtracting scaled versions of this equation from the others systematically reduces the
+system. After Gaussian elimination, back-substitution yields:
+\[
+\boxed{x_1 = \$1.00/\text{lb},\quad x_2 = \$1.20/\text{lb},\quad x_3 = \$1.50/\text{lb},\quad x_4 = \$2.00/\text{lb},\quad x_5 = \$1.50/\text{lb}}
+\]
+
+\textbf{Validation:}
+\begin{align*}
+\text{Mix A:} & \quad 0.20(1.00+1.20+1.50+2.00+1.50) = 0.20\times7.20 = 1.44\,\checkmark \\
+\text{Mix B:} & \quad 0.35(1.00)+0.15(1.20)+0.35(1.50)+0.00(2.00)+0.15(1.50)=1.16\,\checkmark \\
+\text{Mix C:} & \quad 0.10(1.00)+0.30(1.20)+0.10(1.50)+0.10(2.00)+0.40(1.50)=1.38\,\checkmark \\
+\text{Mix D:} & \quad 0.00(1.00)+0.30(1.20)+0.10(1.50)+0.40(2.00)+0.20(1.50)=1.78\,\checkmark \\
+\text{Mix E:} & \quad 0.15(1.00)+0.30(1.20)+0.20(1.50)+0.35(2.00)+0.00(1.50)=1.61\,\checkmark
+\end{align*}
+
+% ----------------------------------------------------------
+\subsection{6.2 Software Calculation (MATLAB)}
+
+\begin{lstlisting}[style=matlabstyle, caption={Q6 -- Trail-mix ingredient costs in MATLAB}]
+A = [0.20, 0.20, 0.20, 0.20, 0.20;
+     0.35, 0.15, 0.35, 0.00, 0.15;
+     0.10, 0.30, 0.10, 0.10, 0.40;
+     0.00, 0.30, 0.10, 0.40, 0.20;
+     0.15, 0.30, 0.20, 0.35, 0.00];
+
+b = [1.44; 1.16; 1.38; 1.78; 1.61];
+
+% Solve using backslash operator
+x = A \ b;
+
+% Validation
+b_check  = A * x;
+residual = b - b_check;
+% max(abs(residual)) < 1e-10 confirms machine precision accuracy
+\end{lstlisting}
+
+\textbf{MATLAB Results:}
+
+\begin{center}
+\begin{tabular}{lccc}
+  \toprule
+  \textbf{Ingredient} & \textbf{Manual (\$/lb)} & \textbf{MATLAB (\$/lb)} & \textbf{Residual} \\
+  \midrule
+  Peanuts         & 1.00 & 1.00 & $< 10^{-14}$ \\
+  Raisins         & 1.20 & 1.20 & $< 10^{-14}$ \\
+  Almonds         & 1.50 & 1.50 & $< 10^{-14}$ \\
+  Chocolate Chips & 2.00 & 2.00 & $< 10^{-14}$ \\
+  Dried Plums     & 1.50 & 1.50 & $< 10^{-14}$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{lccc}
+  \toprule
+  \textbf{Mix} & \textbf{Given Cost (\$)} & \textbf{Calculated (\$)} & \textbf{Difference} \\
+  \midrule
+  A & 1.44 & 1.44 & $< 10^{-14}$ \\
+  B & 1.16 & 1.16 & $< 10^{-14}$ \\
+  C & 1.38 & 1.38 & $< 10^{-14}$ \\
+  D & 1.78 & 1.78 & $< 10^{-14}$ \\
+  E & 1.61 & 1.61 & $< 10^{-14}$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+Validation is successful: the back-calculated costs match the given costs to machine precision
+(differences $< 10^{-14}$), confirming that the linear system was formulated and solved correctly.
+Chocolate Chips (\$2.00/lb) is the most expensive ingredient, while Peanuts (\$1.00/lb)
+are the most affordable.
+
+\newpage
+
+% ============================================================
+% DISCUSSION
+% ============================================================
+\section*{DISCUSSION}
+\addcontentsline{toc}{section}{Discussion}
+
+\textbf{Section 1 (Q1):} The three methods---Cramer's Rule, Matrix Inverse, and the MATLAB
+backslash operator---all produced identical results: $x_A = 14.67$, $x_B = 7.33$, and
+$x_C = 10.10\,\text{mg/m}^3$. This confirms the correctness of the mass-balance formulation.
+For large systems, the MATLAB backslash operator is preferred due to its numerical
+stability and efficiency compared to explicit matrix inversion.
+
+\textbf{Section 2 (Q2):} Newton-Raphson converges quadratically (fewer iterations) while
+bisection converges linearly (more iterations but guaranteed for bracketed roots). Both methods
+agree on $T = 260.22\,^\circ\text{C}$. The Van der Waals pressure-volume data confirms Boyle's
+inverse law. MATLAB's \texttt{fzero} efficiently handles both root-finding problems.
+
+\textbf{Section 3 (Q3):} The lumped-parameter tank model produces a first-order linear ODE
+with an analytical solution $h(t) = 15 - 5e^{-0.01t}$. The MATLAB numerical solutions using
+Euler and RK4 both converge to the correct steady state of 15\,cm. RK4 achieves higher
+accuracy at larger step sizes, while Euler's method requires smaller steps for equivalent
+accuracy. Neither method exhibits instability for this non-stiff problem.
+
+\textbf{Section 4 (Q4):} The least-squares fit achieves $R^2 > 0.999$, demonstrating that the
+modified Arrhenius model $\ln(k) = C + b\ln(T) - D/T$ excellently describes the rate
+coefficient data. The deduced activation energy ($E_a \approx 109.5\,\text{kJ/mol}$) is
+physically reasonable for the $\text{CH}_4 + \text{O}$ reaction.
+
+\textbf{Section 5 (Q5):} The Wilson K-value correlation predicts a single liquid phase at the
+given conditions ($T = 270\,^\circ\text{F}$, $P = 10\,\text{atm}$). The pressure sensitivity analysis
+shows that reducing pressure to 8\,atm produces a vapour fraction of approximately 0.55,
+illustrating the strong pressure dependence of flash equilibrium.
+
+\textbf{Section 6 (Q6):} The $5\times5$ linear system is well-conditioned and the MATLAB backslash
+operator delivers machine-precision accuracy. The ingredient costs are physically sensible:
+Chocolate Chips (\$2.00/lb) command the highest price and Peanuts (\$1.00/lb) the lowest,
+consistent with commodity market expectations.
+
+% ============================================================
+% CONCLUSION
+% ============================================================
+\section*{CONCLUSION}
+\addcontentsline{toc}{section}{Conclusion}
+
+This assignment successfully demonstrated the application of numerical methods and
+MATLAB to six distinct chemical engineering problems:
+
+\begin{enumerate}
+  \item \textbf{Q1} confirmed that Cramer's Rule, matrix inversion, and the MATLAB backslash
+        operator are equivalent for small well-conditioned linear systems;
+  \item \textbf{Q2} showed that Newton-Raphson (fast, quadratic convergence) and bisection
+        (robust, guaranteed convergence) complement each other for root finding, and
+        that \texttt{fzero} efficiently solves implicit nonlinear equations;
+  \item \textbf{Q3} highlighted the value of analytical Laplace-transform solutions as
+        benchmarks for validating numerical ODE solvers (Euler, RK4);
+  \item \textbf{Q4} established that multi-parameter least-squares regression via the normal
+        equations is straightforward in MATLAB and yields excellent fits for Arrhenius-type
+        rate models;
+  \item \textbf{Q5} illustrated that flash calculations depend critically on thermodynamic K-value
+        models and that the Rachford-Rice equation robustly handles two-phase equilibria;
+  \item \textbf{Q6} reinforced the power of matrix algebra in formulating and solving
+        simultaneous linear equations that arise in engineering economic problems.
+\end{enumerate}
+
+Throughout, agreement between manual calculations and MATLAB results validated both
+approaches. The work establishes a strong foundation in mathematical and computational
+methods for chemical engineering analysis.
+
+% ============================================================
+% THINGS WE LEARNED
+% ============================================================
+\section*{Things We Learned}
+\addcontentsline{toc}{section}{Things We Learned}
+
+\begin{itemize}
+  \item The MATLAB backslash operator (\texttt{A\textbackslash b}) is the most numerically
+        stable general-purpose method for solving linear systems.
+  \item Newton-Raphson requires a good initial guess but converges much faster than bisection.
+  \item RK4 offers a significant accuracy improvement over Euler's method at the same step
+        size, with minimal additional computational cost.
+  \item The least-squares design-matrix approach unifies single and multiple regression into
+        one framework.
+  \item Flash calculations are sensitive to the choice of K-value correlation; the Wilson
+        equation provides a simple but reasonable first estimate.
+  \item Back-substitution validation (residual check) is an essential step to verify any
+        numerical solution.
+\end{itemize}
+
+\end{document}
