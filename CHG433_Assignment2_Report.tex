@@ -523,41 +523,13 @@ snippets.
         further \texttt{MMULT} call; all entries should equal zero.
 \end{enumerate}
 
-\textbf{Excel formula snippets:}
-\begin{lstlisting}[style=excelstyle, caption={Q1 -- Solving 3-reactor system in Excel}]
-'--- Step 1: Coefficient matrix (enter in B2:D4) ---
-' Row 1:  120  -60    0
-' Row 2:   40  -80    0
-' Row 3:   80   20 -150
+\textbf{Excel Screenshot:}
 
-'--- Constant vector (enter in F2:F4) ---
-' F2 =  1320
-' F3 =     0
-' F4 =  -195
-
-'--- Step 2: Matrix inverse (array formula, select B7:D9 first) ---
-{=MINVERSE(B2:D4)}
-
-'--- Step 3: Solve for x = inv(A)*b  (array formula, select H7:H9) ---
-{=MMULT(B7:D9, F2:F4)}
-' H7 -> xA = 14.6667
-' H8 -> xB =  7.3333
-' H9 -> xC = 10.1000
-
-'--- Step 4: Verification -- residual A*x - b (array formula, select J2:J4) ---
-{=MMULT(B2:D4, H7:H9) - F2:F4}
-' All entries should return 0 (or a value < 1e-10)
-
-'--- Alternative: Cramer's Rule using MDETERM ---
-' det(A)
-=MDETERM(B2:D4)   ' Expected: -192000
-
-' Numerator determinants (replace appropriate column with b):
-' det(A1): copy A to B12:D14, replace column B12:B14 with F2:F4, then:
-=MDETERM(B12:D14)  ' -> xA numerator
-
-' xA = det(A1) / det(A)   (enter in a free cell)
-\end{lstlisting}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth,keepaspectratio]{WhatsApp Image 2026-03-29 at 20.29.52.jpeg}
+  \caption{Q1 -- Solving the 3-reactor system in Excel (Cramer's Rule and Matrix Inverse)}
+\end{figure}
 
 \textbf{Excel Results:}
 
@@ -787,55 +759,19 @@ solve both parts of Question 2 without writing custom iterative code.
         \end{enumerate}
 \end{enumerate}
 
-\textbf{Excel formula snippets:}
-\begin{lstlisting}[style=excelstyle, caption={Q2a -- RTD: Goal Seek setup in Excel}]
-'=== Constants (enter in B2:B6) ===
-' B2: R0  = 100
-' B3: A_c = 5.485E-3
-' B4: B_c = 6.65E-6
-' B5: C_c = 2.805E-11
-' B6: D_c = -2E-17
+\textbf{Excel Screenshots:}
 
-'=== Trial temperature (initial guess) ===
-' B8 = 300   <- Goal Seek will change this cell
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth,keepaspectratio]{WhatsApp Image 2026-03-29 at 20.29.52 (1).jpeg}
+  \caption{Q2a -- RTD root-finding in Excel (Newton-Raphson Method)}
+\end{figure}
 
-'=== RTD resistance formula (enter in B9) ===
-=B2*(1 + B3*B8 + B4*B8^2 + B5*B8^4 + B6*B8^6)
-' Goal Seek: set B9 = 300, by changing B8
-' Result: B8 -> ~260.2187
-
-'=== Derivative formula (for reference / Newton-Raphson verification in B10) ===
-=B2*(B3 + 2*B4*B8 + 4*B5*B8^3 + 6*B6*B8^5)
-\end{lstlisting}
-
-\begin{lstlisting}[style=excelstyle, caption={Q2b -- Van der Waals: Goal Seek setup in Excel}]
-'=== Constants (enter in dedicated cells) ===
-' E2: n    = 1.5
-' E3: R    = 0.08206
-' E4: a    = 1.39
-' E5: b_vdw= 0.03913
-' E6: T_K  = 298.15   (25 + 273.15)
-
-'=== Pressure column (A2:A12, one row per pressure) ===
-' A2 = 13.5*(1+0%)   -> 13.50
-' A3 = 13.5*(1+15%)  -> 15.525
-' ... and so on up to A12 = 13.5*(1+150%) = 33.75
-
-'=== Initial guess for V using ideal gas (enter in B2, copy down) ===
-=($E$2*$E$3*$E$6)/A2
-
-'=== Van der Waals residual (enter in C2, copy down to C12) ===
-=(($E$2*$E$3*$E$6)/(B2 - $E$2*$E$5)) - (($E$2^2*$E$4)/B2^2) - A2
-' Goal Seek: set C2 = 0, by changing B2
-' Repeat for each row to get V at each pressure.
-
-'=== Summary: Pressure vs Volume (columns A and B after Goal Seek) ===
-' P (atm)   V (L)
-'  13.500   3.1587
-'  15.525   2.7408
-'  17.550   2.4189
-'  ... (continues for all eleven pressures)
-\end{lstlisting}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth,keepaspectratio]{WhatsApp Image 2026-03-29 at 20.32.06.jpeg}
+  \caption{Q2a -- RTD root-finding in Excel (Interval Bisection Method)}
+\end{figure}
 
 \textbf{Excel Results:}
 
@@ -1038,52 +974,19 @@ with each row representing one time step.
         visualise the dynamic response.
 \end{enumerate}
 
-\textbf{Excel formula snippets:}
-\begin{lstlisting}[style=excelstyle, caption={Q3 -- Explicit Euler and RK4 in Excel}]
-'=== Parameters (enter in named cells or a table) ===
-' B1 (dt)   = 1        <- change this to test 0.01, 0.05, 0.1, 0.5, 1, 10
-' B2 (A_cs) = 100
-' B3 (R_v)  = 1
-' B4 (qi)   = 15
-' B5 (h0)   = 10
+\textbf{Excel Screenshots:}
 
-'=== Column headers in row 2 ===
-' A2: t   B2: h_Euler   C2: f(t,h)   D2: h_RK4
-'     E2: k1  F2: k2  G2: k3  H2: k4
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth,keepaspectratio]{WhatsApp Image 2026-03-29 at 20.29.53.jpeg}
+  \caption{Q3 -- Liquid tank model in Excel (Euler's Method)}
+\end{figure}
 
-'=== Initial conditions (row 3) ===
-' A3 = 0
-' B3 = $B$5    <- h0 = 10
-' D3 = $B$5    <- h0 = 10
-
-'=== Time column (A4 and below, drag down) ===
-=A3 + $B$1
-
-'=== ODE function f(t,h) = (qi - h/R) / A  (column C, drag down) ===
-=($B$4 - B3/$B$3) / $B$2
-
-'=== Explicit Euler update (column B, from row 4 down) ===
-=B3 + $B$1 * C3
-' (C3 is the f(t,h) value at the previous step)
-
-'=== RK4 intermediate slopes (columns E-H, from row 3 down) ===
-' k1 (column E):
-=($B$4 - D3/$B$3) / $B$2
-
-' k2 (column F):
-=($B$4 - (D3 + E3*$B$1/2)/$B$3) / $B$2
-
-' k3 (column G):
-=($B$4 - (D3 + F3*$B$1/2)/$B$3) / $B$2
-
-' k4 (column H):
-=($B$4 - (D3 + G3*$B$1)/$B$3) / $B$2
-
-'=== RK4 update (column D, from row 4 down) ===
-=D3 + ($B$1/6)*(E3 + 2*F3 + 2*G3 + H3)
-
-'=== Drag rows 4 down until t = 500 s ===
-\end{lstlisting}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth,keepaspectratio]{WhatsApp Image 2026-03-29 at 20.29.53 (1).jpeg}
+  \caption{Q3 -- Liquid tank model in Excel (Euler vs RK4 vs Analytical comparison)}
+\end{figure}
 
 \textbf{Excel Results (dt = 1 s, selected rows):}
 
@@ -1273,47 +1176,6 @@ returning all regression coefficients and statistics in a single step.
         $E_a = D \times R$ ($R = 8.314\,\text{J/mol/K}$).
   \item \textbf{Validate.} Compute predicted $\ln(k)$ values and calculate $R^2$.
 \end{enumerate}
-
-\textbf{Excel formula snippets:}
-\begin{lstlisting}[style=excelstyle, caption={Q4 -- Least-squares regression in Excel}]
-'=== Raw data ===
-' A2:A12  -> T values (K):  595, 623, 761, ..., 1562
-' B2:B12  -> k table * 1e-20: 2.12e-20, 3.12e-20, ..., 8.68e-19
-
-'=== Transformed columns ===
-' C2: =LN(B2)          <- ln(k),  drag to C12
-' D2: =LN(A2)          <- ln(T),  drag to D12
-' E2: =-1/A2           <- -1/T,   drag to E12
-
-'=== Multiple regression via LINEST (array formula, select G2:H4 first) ===
-{=LINEST(C2:C12, D2:E12, FALSE, TRUE)}
-' G2 = b (coefficient of ln(T))
-' H2 = C (constant term)
-' G3, H3 = standard errors of b and C
-' G4, H4 = R^2 and standard error of y
-
-'=== Extract model parameters ===
-' I2 (C constant):  =H2
-' I3 (b exponent):  =G2
-' I4 (D value, K):  use third LINEST coefficient...
-'   For 3-predictor LINEST:
-{=LINEST(C2:C12, D2:E12, TRUE, TRUE)}
-' The returned coefficients are [b_lnT, b_negInvT, C]
-' I2 = C   (intercept)
-' I3 = b   (ln(T) coefficient)
-' I4 = D   (-1/T coefficient, note sign already embedded in column E)
-
-'=== Arrhenius parameters ===
-' J2 (A pre-exponential factor): =EXP(I2)
-' J3 (Ea, J/mol):               =I4 * 8.314
-' J4 (Ea, kJ/mol):              =J3 / 1000
-
-'=== Predicted ln(k) and R^2 ===
-' K2: =I2 + I3*D2 + I4*E2   <- predicted ln(k), drag to K12
-' SS_tot in L2: =SUMPRODUCT((C2:C12 - AVERAGE(C2:C12))^2)
-' SS_res in L3: =SUMPRODUCT((C2:C12 - K2:K12)^2)
-' R^2   in L4:  =1 - L3/L2   ' Expected: > 0.999
-\end{lstlisting}
 
 \textbf{Excel Results:}
 
@@ -1511,47 +1373,19 @@ and the Rachford-Rice root-finding procedure via the built-in \textbf{Goal Seek}
         for $x_i$, $y_i$, $V$, and $L$.
 \end{enumerate}
 
-\textbf{Excel formula snippets:}
-\begin{lstlisting}[style=excelstyle, caption={Q5 -- Flash vaporization in Excel}]
-'=== Operating conditions ===
-' B2: F    = 100         (lbmol/h)
-' B3: P    = 10          (atm)
-' B4: T_F  = 270         (degF)
-' B5: T_K  = (B4-32)*5/9 + 273.15   -> 405.37 K
+\textbf{Excel Screenshots:}
 
-'=== Component data (rows 8-10: n-Butane, n-Pentane, n-Hexane) ===
-' A8:A10   Component names
-' B8:B10   z_i feed mole fractions: 0.21, 0.60, 0.19
-' C8:C10   T_c (K):  425.12, 469.70, 507.60
-' D8:D10   P_c (atm): 37.96, 33.70, 30.25
-' E8:E10   omega:     0.200, 0.251, 0.301
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth,keepaspectratio]{WhatsApp Image 2026-03-29 at 20.29.53 (2).jpeg}
+  \caption{Q5 -- Flash vaporization in Excel (K-Values and Rachford-Rice setup)}
+\end{figure}
 
-'=== Wilson K-values (column F, drag down from F8 to F10) ===
-=(D8/$B$3)*EXP(5.373*(1+E8)*(1 - C8/$B$5))
-' F8 -> K_C4 ~ 0.5297
-' F9 -> K_C5 ~ 0.1866
-' F10-> K_C6 ~ 0.0682
-
-'=== Phase feasibility ===
-' H2 (S1): =SUMPRODUCT(B8:B10, F8:F10)   ' sum(z*K)
-' H3 (S2): =SUMPRODUCT(B8:B10, 1/F8:F10) ' sum(z/K)
-
-'=== Rachford-Rice function (beta in cell J2, initial guess 0.5) ===
-' J2 = 0.5   <- Goal Seek will change this cell
-' Rachford-Rice residual (enter in J3):
-=SUMPRODUCT(B8:B10*(F8:F10-1), 1/(1 + J2*(F8:F10-1)))
-' Goal Seek: set J3 = 0, by changing J2
-' Result: J2 -> beta ~ 0.0 (single liquid phase for these conditions)
-
-'=== Phase compositions (columns G and H) ===
-' G8 (x_i liquid, drag down): =B8 / (1 + $J$2*(F8-1))
-' H8 (y_i vapour, drag down): =F8 * G8
-' Normalize: =G8/SUM($G$8:$G$10) and =H8/SUM($H$8:$H$10)
-
-'=== Flows ===
-' J4 (V): =$B$2 * J2
-' J5 (L): =$B$2 - J4
-\end{lstlisting}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth,keepaspectratio]{WhatsApp Image 2026-03-29 at 20.29.51.jpeg}
+  \caption{Q5 -- Flash vaporization in Excel (Complete Flash Solution)}
+\end{figure}
 
 \textbf{Excel Results:}
 
@@ -1711,39 +1545,13 @@ The $5\times5$ linear system for trail-mix ingredient costs is solved in Excel u
         constraints $\mathbf{A}\mathbf{x} = \mathbf{b}$ to find $\mathbf{x}$ directly.
 \end{enumerate}
 
-\textbf{Excel formula snippets:}
-\begin{lstlisting}[style=excelstyle, caption={Q6 -- Trail-mix ingredient costs in Excel}]
-'=== Composition matrix A (enter in B2:F6) ===
-' Row 1 (Mix A): 0.20  0.20  0.20  0.20  0.20
-' Row 2 (Mix B): 0.35  0.15  0.35  0.00  0.15
-' Row 3 (Mix C): 0.10  0.30  0.10  0.10  0.40
-' Row 4 (Mix D): 0.00  0.30  0.10  0.40  0.20
-' Row 5 (Mix E): 0.15  0.30  0.20  0.35  0.00
+\textbf{Excel Screenshot:}
 
-'=== Cost vector b (enter in H2:H6) ===
-' H2 = 1.44   H3 = 1.16   H4 = 1.38   H5 = 1.78   H6 = 1.61
-
-'=== Step 2: Matrix inverse (array formula -- select B9:F13 first) ===
-{=MINVERSE(B2:F6)}
-
-'=== Step 3: Solve x = inv(A)*b  (array formula -- select H9:H13 first) ===
-{=MMULT(B9:F13, H2:H6)}
-' H9  -> Peanuts         = 1.00 $/lb
-' H10 -> Raisins         = 1.20 $/lb
-' H11 -> Almonds         = 1.50 $/lb
-' H12 -> Chocolate Chips = 2.00 $/lb
-' H13 -> Dried Plums     = 1.50 $/lb
-
-'=== Step 4: Validation -- back-calculate A*x  (array formula, B16:B20) ===
-{=MMULT(B2:F6, H9:H13)}
-' Compare with H2:H6; differences should be < 1e-12
-
-'=== Step 5 (Optional): Solver approach ===
-' - Set objective: none (feasibility only)
-' - Changing variables: H9:H13 (ingredient costs, constrained >= 0)
-' - Constraints: B16:B20 = H2:H6  (back-calculated = given blend costs)
-' - Method: Simplex LP
-\end{lstlisting}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth,keepaspectratio]{WhatsApp Image 2026-03-29 at 20.29.53 (3).jpeg}
+  \caption{Q6 -- Trail-mix ingredient costs in Excel (Matrix solution)}
+\end{figure}
 
 \textbf{Excel Results:}
 
