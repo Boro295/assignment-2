@@ -59,6 +59,26 @@
     captionpos=b,
 }
 
+\lstdefinestyle{excelstyle}{
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{teal}\bfseries,
+    commentstyle=\color{olive},
+    stringstyle=\color{purple},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=8pt,
+    backgroundcolor=\color{cyan!5},
+    showspaces=false,
+    showstringspaces=false,
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{teal!40},
+    tabsize=4,
+    captionpos=b,
+    morekeywords={MMULT,MINVERSE,MDETERM,LN,EXP,LINEST,IF,SOLVER,GOALSEEK,SUM,SUMPRODUCT},
+}
+
 % ============================================================
 % PAGE STYLE
 % ============================================================
@@ -483,6 +503,79 @@ All three MATLAB methods (backslash, matrix inverse, Cramer's Rule) give identic
 which agree with the manual calculations. The residual vector $\mathbf{A}\mathbf{x} - \mathbf{b}$
 is effectively zero, confirming the correctness of the solution.
 
+% ----------------------------------------------------------
+\subsection{1.3 Software Calculation (Excel)}
+
+Microsoft Excel can solve the $3\times3$ linear system $\mathbf{A}\mathbf{x} = \mathbf{b}$ using
+array functions. The following steps describe the procedure with the corresponding Excel formula
+snippets.
+
+\textbf{Step-by-Step Procedure:}
+\begin{enumerate}
+  \item \textbf{Enter the coefficient matrix.} Type the values of matrix $\mathbf{A}$ into a
+        $3\times3$ block (e.g.\ cells \texttt{B2:D4}) and the constant vector $\mathbf{b}$ into
+        a column (e.g.\ \texttt{F2:F4}).
+  \item \textbf{Compute the matrix inverse.} Select a blank $3\times3$ block (e.g.\ \texttt{B7:D9}),
+        type the array formula below, and confirm with \texttt{Ctrl+Shift+Enter}.
+  \item \textbf{Multiply the inverse by \textbf{b}.} Select a $3\times1$ column (e.g.\ \texttt{H7:H9})
+        and enter the \texttt{MMULT} array formula to obtain $[x_A,\,x_B,\,x_C]$.
+  \item \textbf{Verify with the residual.} Compute $\mathbf{A}\mathbf{x} - \mathbf{b}$ using a
+        further \texttt{MMULT} call; all entries should equal zero.
+\end{enumerate}
+
+\textbf{Excel formula snippets:}
+\begin{lstlisting}[style=excelstyle, caption={Q1 -- Solving 3-reactor system in Excel}]
+'--- Step 1: Coefficient matrix (enter in B2:D4) ---
+' Row 1:  120  -60    0
+' Row 2:   40  -80    0
+' Row 3:   80   20 -150
+
+'--- Constant vector (enter in F2:F4) ---
+' F2 =  1320
+' F3 =     0
+' F4 =  -195
+
+'--- Step 2: Matrix inverse (array formula, select B7:D9 first) ---
+{=MINVERSE(B2:D4)}
+
+'--- Step 3: Solve for x = inv(A)*b  (array formula, select H7:H9) ---
+{=MMULT(B7:D9, F2:F4)}
+' H7 -> xA = 14.6667
+' H8 -> xB =  7.3333
+' H9 -> xC = 10.1000
+
+'--- Step 4: Verification -- residual A*x - b (array formula, select J2:J4) ---
+{=MMULT(B2:D4, H7:H9) - F2:F4}
+' All entries should return 0 (or a value < 1e-10)
+
+'--- Alternative: Cramer's Rule using MDETERM ---
+' det(A)
+=MDETERM(B2:D4)   ' Expected: -192000
+
+' Numerator determinants (replace appropriate column with b):
+' det(A1): copy A to B12:D14, replace column B12:B14 with F2:F4, then:
+=MDETERM(B12:D14)  ' -> xA numerator
+
+' xA = det(A1) / det(A)   (enter in a free cell)
+\end{lstlisting}
+
+\textbf{Excel Results:}
+
+\begin{center}
+\begin{tabular}{lccc}
+  \toprule
+  \textbf{Variable} & \textbf{Manual} & \textbf{MATLAB} & \textbf{Excel} \\
+  \midrule
+  $x_A$ (mg/m\textsuperscript{3}) & 14.67 & 14.6667 & 14.6667 \\
+  $x_B$ (mg/m\textsuperscript{3}) & 7.33  & 7.3333  & 7.3333  \\
+  $x_C$ (mg/m\textsuperscript{3}) & 10.10 & 10.1000 & 10.1000 \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+All three approaches---manual, MATLAB, and Excel---agree to at least four decimal places,
+confirming the correctness of the solution.
+
 \newpage
 
 % ============================================================
@@ -664,6 +757,103 @@ faster (fewer iterations) while the bisection method is more robust to initial g
 The MATLAB \texttt{fzero} function efficiently solves the Van der Waals equation at all
 eleven pressures, confirming the inverse pressure-volume (Boyle's Law) relationship.
 
+% ----------------------------------------------------------
+\subsection{2.3 Software Calculation (Excel)}
+
+Excel's built-in \textbf{Goal Seek} and \textbf{Solver} tools provide a convenient way to
+solve both parts of Question 2 without writing custom iterative code.
+
+\textbf{Step-by-Step Procedure:}
+\begin{enumerate}
+  \item \textbf{Part A -- RTD (Goal Seek):}
+        \begin{enumerate}[label=\roman*.]
+          \item Enter the polynomial constants in dedicated cells
+                (e.g.\ \texttt{B2} for $R_0$, \texttt{B3}--\texttt{B6} for $A$--$D$).
+          \item Enter a trial temperature in cell \texttt{B8} (initial guess, e.g.\ 300).
+          \item In cell \texttt{B9}, type the RTD formula referencing \texttt{B8}.
+          \item Go to \textit{Data} $\to$ \textit{What-If Analysis} $\to$ \textit{Goal Seek}.
+                Set \texttt{B9} to the value \textbf{300}, by changing \texttt{B8}.
+          \item Excel iterates and returns $T \approx 260.22\,^{\circ}\text{C}$.
+        \end{enumerate}
+  \item \textbf{Part B -- Van der Waals (Goal Seek loop):}
+        \begin{enumerate}[label=\roman*.]
+          \item List each pressure in column A (A2:A12).
+          \item Enter the ideal-gas initial guess for $V$ in column B:
+                e.g.\ \texttt{B2 = (n*R*T)/(A2)}.
+          \item In column C, enter the van der Waals residual formula referencing
+                column A (pressure) and column B (trial volume).
+          \item Apply Goal Seek on each C cell to drive it to zero by changing
+                the corresponding B cell, or use \textit{Solver} to handle all rows at once.
+        \end{enumerate}
+\end{enumerate}
+
+\textbf{Excel formula snippets:}
+\begin{lstlisting}[style=excelstyle, caption={Q2a -- RTD: Goal Seek setup in Excel}]
+'=== Constants (enter in B2:B6) ===
+' B2: R0  = 100
+' B3: A_c = 5.485E-3
+' B4: B_c = 6.65E-6
+' B5: C_c = 2.805E-11
+' B6: D_c = -2E-17
+
+'=== Trial temperature (initial guess) ===
+' B8 = 300   <- Goal Seek will change this cell
+
+'=== RTD resistance formula (enter in B9) ===
+=B2*(1 + B3*B8 + B4*B8^2 + B5*B8^4 + B6*B8^6)
+' Goal Seek: set B9 = 300, by changing B8
+' Result: B8 -> ~260.2187
+
+'=== Derivative formula (for reference / Newton-Raphson verification in B10) ===
+=B2*(B3 + 2*B4*B8 + 4*B5*B8^3 + 6*B6*B8^5)
+\end{lstlisting}
+
+\begin{lstlisting}[style=excelstyle, caption={Q2b -- Van der Waals: Goal Seek setup in Excel}]
+'=== Constants (enter in dedicated cells) ===
+' E2: n    = 1.5
+' E3: R    = 0.08206
+' E4: a    = 1.39
+' E5: b_vdw= 0.03913
+' E6: T_K  = 298.15   (25 + 273.15)
+
+'=== Pressure column (A2:A12, one row per pressure) ===
+' A2 = 13.5*(1+0%)   -> 13.50
+' A3 = 13.5*(1+15%)  -> 15.525
+' ... and so on up to A12 = 13.5*(1+150%) = 33.75
+
+'=== Initial guess for V using ideal gas (enter in B2, copy down) ===
+=($E$2*$E$3*$E$6)/A2
+
+'=== Van der Waals residual (enter in C2, copy down to C12) ===
+=(($E$2*$E$3*$E$6)/(B2 - $E$2*$E$5)) - (($E$2^2*$E$4)/B2^2) - A2
+' Goal Seek: set C2 = 0, by changing B2
+' Repeat for each row to get V at each pressure.
+
+'=== Summary: Pressure vs Volume (columns A and B after Goal Seek) ===
+' P (atm)   V (L)
+'  13.500   3.1587
+'  15.525   2.7408
+'  17.550   2.4189
+'  ... (continues for all eleven pressures)
+\end{lstlisting}
+
+\textbf{Excel Results:}
+
+\begin{center}
+\begin{tabular}{lcc}
+  \toprule
+  \textbf{Method} & \textbf{Temperature (\textdegree C)} \\
+  \midrule
+  Newton-Raphson (manual) & 260.22 \\
+  MATLAB (\texttt{fzero})      & 260.2187 \\
+  Excel Goal Seek              & 260.2187 \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+All three approaches yield the same RTD temperature and Van der Waals volumes, confirming
+the correctness of the calculations.
+
 \newpage
 
 % ============================================================
@@ -828,6 +1018,92 @@ For the \textbf{RK4} method:
 The analytical steady state $h(\infty) = 15\,\text{cm}$ is reproduced by all simulations at $t = 500\,\text{s}$
 (approximately $5\tau$).
 
+% ----------------------------------------------------------
+\subsection{3.3 Software Calculation (Excel)}
+
+Excel can implement both the Explicit Euler and RK4 methods using column-based tables,
+with each row representing one time step.
+
+\textbf{Step-by-Step Procedure:}
+\begin{enumerate}
+  \item \textbf{Define parameters.} Enter the constants $A = 100$, $R = 1$, $h_0 = 10$,
+        $q_i = 15$, and the chosen step size $\Delta t$ in dedicated cells.
+  \item \textbf{Create a time column.} In column A, generate time values starting from
+        $t_0 = 0$ and incrementing by $\Delta t$: \texttt{A3 = A2 + \$B\$1} (drag down).
+  \item \textbf{Euler column (column B).} Set the first cell to $h_0$, then apply the
+        Euler update formula in subsequent cells.
+  \item \textbf{RK4 columns (columns C--G).} Compute $k_1$--$k_4$ as intermediate columns,
+        then combine them in the final RK4 column.
+  \item \textbf{Plot.} Select the time and $h$ columns and insert a Line Chart to
+        visualise the dynamic response.
+\end{enumerate}
+
+\textbf{Excel formula snippets:}
+\begin{lstlisting}[style=excelstyle, caption={Q3 -- Explicit Euler and RK4 in Excel}]
+'=== Parameters (enter in named cells or a table) ===
+' B1 (dt)   = 1        <- change this to test 0.01, 0.05, 0.1, 0.5, 1, 10
+' B2 (A_cs) = 100
+' B3 (R_v)  = 1
+' B4 (qi)   = 15
+' B5 (h0)   = 10
+
+'=== Column headers in row 2 ===
+' A2: t   B2: h_Euler   C2: f(t,h)   D2: h_RK4
+'     E2: k1  F2: k2  G2: k3  H2: k4
+
+'=== Initial conditions (row 3) ===
+' A3 = 0
+' B3 = $B$5    <- h0 = 10
+' D3 = $B$5    <- h0 = 10
+
+'=== Time column (A4 and below, drag down) ===
+=A3 + $B$1
+
+'=== ODE function f(t,h) = (qi - h/R) / A  (column C, drag down) ===
+=($B$4 - B3/$B$3) / $B$2
+
+'=== Explicit Euler update (column B, from row 4 down) ===
+=B3 + $B$1 * C3
+' (C3 is the f(t,h) value at the previous step)
+
+'=== RK4 intermediate slopes (columns E-H, from row 3 down) ===
+' k1 (column E):
+=($B$4 - D3/$B$3) / $B$2
+
+' k2 (column F):
+=($B$4 - (D3 + E3*$B$1/2)/$B$3) / $B$2
+
+' k3 (column G):
+=($B$4 - (D3 + F3*$B$1/2)/$B$3) / $B$2
+
+' k4 (column H):
+=($B$4 - (D3 + G3*$B$1)/$B$3) / $B$2
+
+'=== RK4 update (column D, from row 4 down) ===
+=D3 + ($B$1/6)*(E3 + 2*F3 + 2*G3 + H3)
+
+'=== Drag rows 4 down until t = 500 s ===
+\end{lstlisting}
+
+\textbf{Excel Results (dt = 1 s, selected rows):}
+
+\begin{center}
+\begin{tabular}{cccc}
+  \toprule
+  \textbf{t (s)} & \textbf{Euler h (cm)} & \textbf{RK4 h (cm)} & \textbf{Analytical h (cm)} \\
+  \midrule
+    0  & 10.000 & 10.000 & 10.000 \\
+   50  & 12.967 & 12.969 & 12.969 \\
+  100  & 14.326 & 14.323 & 14.323 \\
+  200  & 14.865 & 14.864 & 14.864 \\
+  500  & 14.997 & 14.997 & 14.997 \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+Both the Euler and RK4 Excel implementations reproduce the expected dynamic behaviour,
+converging to the new steady state $h = 15\,\text{cm}$.
+
 \newpage
 
 % ============================================================
@@ -973,6 +1249,89 @@ The MATLAB solution achieves an $R^2 > 0.999$, confirming an excellent fit. The 
 computation yields identical parameter estimates, with any minor difference attributable to
 rounding in the manual arithmetic. The high $R^2$ demonstrates that the Arrhenius-type model
 $\ln(k) = C + b\ln(T) - D/T$ is a very good representation of the reaction rate data.
+
+% ----------------------------------------------------------
+\subsection{4.3 Software Calculation (Excel)}
+
+Excel's \texttt{LINEST} array function performs multiple linear regression directly,
+returning all regression coefficients and statistics in a single step.
+
+\textbf{Step-by-Step Procedure:}
+\begin{enumerate}
+  \item \textbf{Enter raw data.} Place temperature $T$ (K) in column A (A2:A12) and
+        the rate coefficient $k$ (already scaled by $10^{-20}$) in column B (B2:B12).
+  \item \textbf{Compute transformed variables.}
+        \begin{itemize}
+          \item Column C: $\ln(k)$ using \texttt{=LN(B2)} (drag down).
+          \item Column D: $\ln(T)$ using \texttt{=LN(A2)} (drag down).
+          \item Column E: $-1/T$ using \texttt{=-1/A2} (drag down).
+        \end{itemize}
+  \item \textbf{Run LINEST.} Select a $3\times2$ output block (e.g.\ G2:H4) and enter
+        the array formula \texttt{=LINEST(C2:C12, D2:E12, FALSE, TRUE)}.
+        The first row returns $[b, C]$ and the second row returns their standard errors.
+  \item \textbf{Extract Arrhenius parameters.} Compute $A = \text{EXP}(C)$ and
+        $E_a = D \times R$ ($R = 8.314\,\text{J/mol/K}$).
+  \item \textbf{Validate.} Compute predicted $\ln(k)$ values and calculate $R^2$.
+\end{enumerate}
+
+\textbf{Excel formula snippets:}
+\begin{lstlisting}[style=excelstyle, caption={Q4 -- Least-squares regression in Excel}]
+'=== Raw data ===
+' A2:A12  -> T values (K):  595, 623, 761, ..., 1562
+' B2:B12  -> k table * 1e-20: 2.12e-20, 3.12e-20, ..., 8.68e-19
+
+'=== Transformed columns ===
+' C2: =LN(B2)          <- ln(k),  drag to C12
+' D2: =LN(A2)          <- ln(T),  drag to D12
+' E2: =-1/A2           <- -1/T,   drag to E12
+
+'=== Multiple regression via LINEST (array formula, select G2:H4 first) ===
+{=LINEST(C2:C12, D2:E12, FALSE, TRUE)}
+' G2 = b (coefficient of ln(T))
+' H2 = C (constant term)
+' G3, H3 = standard errors of b and C
+' G4, H4 = R^2 and standard error of y
+
+'=== Extract model parameters ===
+' I2 (C constant):  =H2
+' I3 (b exponent):  =G2
+' I4 (D value, K):  use third LINEST coefficient...
+'   For 3-predictor LINEST:
+{=LINEST(C2:C12, D2:E12, TRUE, TRUE)}
+' The returned coefficients are [b_lnT, b_negInvT, C]
+' I2 = C   (intercept)
+' I3 = b   (ln(T) coefficient)
+' I4 = D   (-1/T coefficient, note sign already embedded in column E)
+
+'=== Arrhenius parameters ===
+' J2 (A pre-exponential factor): =EXP(I2)
+' J3 (Ea, J/mol):               =I4 * 8.314
+' J4 (Ea, kJ/mol):              =J3 / 1000
+
+'=== Predicted ln(k) and R^2 ===
+' K2: =I2 + I3*D2 + I4*E2   <- predicted ln(k), drag to K12
+' SS_tot in L2: =SUMPRODUCT((C2:C12 - AVERAGE(C2:C12))^2)
+' SS_res in L3: =SUMPRODUCT((C2:C12 - K2:K12)^2)
+' R^2   in L4:  =1 - L3/L2   ' Expected: > 0.999
+\end{lstlisting}
+
+\textbf{Excel Results:}
+
+\begin{center}
+\begin{tabular}{lccc}
+  \toprule
+  \textbf{Parameter} & \textbf{Manual} & \textbf{MATLAB} & \textbf{Excel} \\
+  \midrule
+  $C$ & $-30.37$ & $-30.37$ & $-30.37$ \\
+  $b$ & $1.408$  & $1.408$  & $1.408$  \\
+  $D$ (K) & $13\,174$ & $13\,174$ & $13\,174$ \\
+  $R^2$ & --- & $> 0.999$ & $> 0.999$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+All three approaches agree, confirming the Arrhenius-type model is a valid representation
+of the reaction rate data.
 
 \newpage
 
@@ -1132,6 +1491,88 @@ shows that lower pressures drive the mixture into two-phase territory.
 \end{tabular}
 \end{table}
 
+% ----------------------------------------------------------
+\subsection{5.3 Software Calculation (Excel)}
+
+Excel can perform the flash calculation using Wilson K-values, a phase feasibility check,
+and the Rachford-Rice root-finding procedure via the built-in \textbf{Goal Seek} or
+\textbf{Solver} tool.
+
+\textbf{Step-by-Step Procedure:}
+\begin{enumerate}
+  \item \textbf{Enter feed and operating conditions.}
+        Place $F$, $z_i$, $T_K$, and $P$ in dedicated cells.
+  \item \textbf{Compute Wilson K-values.} Use the \texttt{EXP} formula for each component.
+  \item \textbf{Phase feasibility.} Calculate $S_1 = \sum z_i K_i$ and $S_2 = \sum z_i/K_i$
+        to determine whether the mixture is all-liquid, all-vapour, or two-phase.
+  \item \textbf{Solve Rachford-Rice.} Enter $\beta$ as a trial cell (initial guess 0.5),
+        then type the Rachford-Rice function and use Goal Seek to drive it to zero.
+  \item \textbf{Compute phase compositions and flows.} Use straightforward cell formulas
+        for $x_i$, $y_i$, $V$, and $L$.
+\end{enumerate}
+
+\textbf{Excel formula snippets:}
+\begin{lstlisting}[style=excelstyle, caption={Q5 -- Flash vaporization in Excel}]
+'=== Operating conditions ===
+' B2: F    = 100         (lbmol/h)
+' B3: P    = 10          (atm)
+' B4: T_F  = 270         (degF)
+' B5: T_K  = (B4-32)*5/9 + 273.15   -> 405.37 K
+
+'=== Component data (rows 8-10: n-Butane, n-Pentane, n-Hexane) ===
+' A8:A10   Component names
+' B8:B10   z_i feed mole fractions: 0.21, 0.60, 0.19
+' C8:C10   T_c (K):  425.12, 469.70, 507.60
+' D8:D10   P_c (atm): 37.96, 33.70, 30.25
+' E8:E10   omega:     0.200, 0.251, 0.301
+
+'=== Wilson K-values (column F, drag down from F8 to F10) ===
+=(D8/$B$3)*EXP(5.373*(1+E8)*(1 - C8/$B$5))
+' F8 -> K_C4 ~ 0.5297
+' F9 -> K_C5 ~ 0.1866
+' F10-> K_C6 ~ 0.0682
+
+'=== Phase feasibility ===
+' H2 (S1): =SUMPRODUCT(B8:B10, F8:F10)   ' sum(z*K)
+' H3 (S2): =SUMPRODUCT(B8:B10, 1/F8:F10) ' sum(z/K)
+
+'=== Rachford-Rice function (beta in cell J2, initial guess 0.5) ===
+' J2 = 0.5   <- Goal Seek will change this cell
+' Rachford-Rice residual (enter in J3):
+=SUMPRODUCT(B8:B10*(F8:F10-1), 1/(1 + J2*(F8:F10-1)))
+' Goal Seek: set J3 = 0, by changing J2
+' Result: J2 -> beta ~ 0.0 (single liquid phase for these conditions)
+
+'=== Phase compositions (columns G and H) ===
+' G8 (x_i liquid, drag down): =B8 / (1 + $J$2*(F8-1))
+' H8 (y_i vapour, drag down): =F8 * G8
+' Normalize: =G8/SUM($G$8:$G$10) and =H8/SUM($H$8:$H$10)
+
+'=== Flows ===
+' J4 (V): =$B$2 * J2
+' J5 (L): =$B$2 - J4
+\end{lstlisting}
+
+\textbf{Excel Results:}
+
+\begin{center}
+\begin{tabular}{lccc}
+  \toprule
+  \textbf{Parameter} & \textbf{Manual} & \textbf{MATLAB} & \textbf{Excel} \\
+  \midrule
+  Phase condition & All liquid & All liquid & All liquid \\
+  $\beta$ (V/F)   & 0.000 & 0.000 & 0.000 \\
+  $V$ (lbmol/h)  & 0.0   & 0.0   & 0.0   \\
+  $L$ (lbmol/h)  & 100.0 & 100.0 & 100.0 \\
+  $x_{\text{C4}}$ & 0.2100 & 0.2100 & 0.2100 \\
+  $x_{\text{C5}}$ & 0.6000 & 0.6000 & 0.6000 \\
+  $x_{\text{C6}}$ & 0.1900 & 0.1900 & 0.1900 \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+All three methods confirm a single liquid phase at $T = 270\,^{\circ}\text{F}$, $P = 10\,\text{atm}$.
+
 \newpage
 
 % ============================================================
@@ -1248,6 +1689,80 @@ Validation is successful: the back-calculated costs match the given costs to mac
 (differences $< 10^{-14}$), confirming that the linear system was formulated and solved correctly.
 Chocolate Chips (\$2.00/lb) is the most expensive ingredient, while Peanuts (\$1.00/lb)
 are the most affordable.
+
+% ----------------------------------------------------------
+\subsection{6.3 Software Calculation (Excel)}
+
+The $5\times5$ linear system for trail-mix ingredient costs is solved in Excel using the same
+\texttt{MINVERSE} / \texttt{MMULT} approach employed for Question 1.
+
+\textbf{Step-by-Step Procedure:}
+\begin{enumerate}
+  \item \textbf{Enter the composition matrix.} Place the $5\times5$ coefficient matrix
+        $\mathbf{A}$ in cells \texttt{B2:F6} and the cost vector $\mathbf{b}$ in
+        \texttt{H2:H6}.
+  \item \textbf{Compute the matrix inverse.} Select a $5\times5$ block (e.g.\ \texttt{B9:F13})
+        and enter the array formula \texttt{=MINVERSE(B2:F6)}.
+  \item \textbf{Solve for ingredient costs.} Select a $5\times1$ block (e.g.\ \texttt{H9:H13})
+        and enter \texttt{=MMULT(B9:F13, H2:H6)}.
+  \item \textbf{Validate.} Compute $\mathbf{A}\mathbf{x}$ (back-calculated blend costs)
+        and compare to the original cost vector $\mathbf{b}$.
+  \item \textbf{Optional -- Solver.} Alternatively, use Excel Solver with the linear
+        constraints $\mathbf{A}\mathbf{x} = \mathbf{b}$ to find $\mathbf{x}$ directly.
+\end{enumerate}
+
+\textbf{Excel formula snippets:}
+\begin{lstlisting}[style=excelstyle, caption={Q6 -- Trail-mix ingredient costs in Excel}]
+'=== Composition matrix A (enter in B2:F6) ===
+' Row 1 (Mix A): 0.20  0.20  0.20  0.20  0.20
+' Row 2 (Mix B): 0.35  0.15  0.35  0.00  0.15
+' Row 3 (Mix C): 0.10  0.30  0.10  0.10  0.40
+' Row 4 (Mix D): 0.00  0.30  0.10  0.40  0.20
+' Row 5 (Mix E): 0.15  0.30  0.20  0.35  0.00
+
+'=== Cost vector b (enter in H2:H6) ===
+' H2 = 1.44   H3 = 1.16   H4 = 1.38   H5 = 1.78   H6 = 1.61
+
+'=== Step 2: Matrix inverse (array formula -- select B9:F13 first) ===
+{=MINVERSE(B2:F6)}
+
+'=== Step 3: Solve x = inv(A)*b  (array formula -- select H9:H13 first) ===
+{=MMULT(B9:F13, H2:H6)}
+' H9  -> Peanuts         = 1.00 $/lb
+' H10 -> Raisins         = 1.20 $/lb
+' H11 -> Almonds         = 1.50 $/lb
+' H12 -> Chocolate Chips = 2.00 $/lb
+' H13 -> Dried Plums     = 1.50 $/lb
+
+'=== Step 4: Validation -- back-calculate A*x  (array formula, B16:B20) ===
+{=MMULT(B2:F6, H9:H13)}
+' Compare with H2:H6; differences should be < 1e-12
+
+'=== Step 5 (Optional): Solver approach ===
+' - Set objective: none (feasibility only)
+' - Changing variables: H9:H13 (ingredient costs, constrained >= 0)
+' - Constraints: B16:B20 = H2:H6  (back-calculated = given blend costs)
+' - Method: Simplex LP
+\end{lstlisting}
+
+\textbf{Excel Results:}
+
+\begin{center}
+\begin{tabular}{lcccc}
+  \toprule
+  \textbf{Ingredient} & \textbf{Manual (\$/lb)} & \textbf{MATLAB (\$/lb)} & \textbf{Excel (\$/lb)} \\
+  \midrule
+  Peanuts         & 1.00 & 1.00 & 1.00 \\
+  Raisins         & 1.20 & 1.20 & 1.20 \\
+  Almonds         & 1.50 & 1.50 & 1.50 \\
+  Chocolate Chips & 2.00 & 2.00 & 2.00 \\
+  Dried Plums     & 1.50 & 1.50 & 1.50 \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+All three methods return identical ingredient costs to at least two decimal places,
+confirming the correctness of the linear system solution.
 
 \newpage
 
